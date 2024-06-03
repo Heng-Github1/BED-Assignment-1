@@ -1,3 +1,4 @@
+/*index.js*/
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 body {
@@ -49,11 +50,9 @@ nav a:hover {
   text-align: center;
 }
 
-.BP-container {
+/*.BP-container {
   height: 380vh;
-}
-
-
+}*/
 
 h1 {
   font-size: 6em;
@@ -111,4 +110,67 @@ h5 {
   background-color: white;
   margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#back-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  cursor: pointer;
+  color: #333;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+
+}
+
+#back-link:hover {
+  color: #666;
+}
+
+#back-link i {
+  margin-right: 10px;
+}
+
+/*Blog Posts CSS*/
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.search-bar input[type="search"] {
+  width: 75%;
+  height: 40px;
+  font-size: 18px;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.search-bar button[type="button"] {
+  width: 23%;
+  height: 40px;
+  font-size: 18px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.search-bar button[type="button"]:hover {
+  background-color: #3e8e41;
 }
