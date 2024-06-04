@@ -18,21 +18,22 @@
 
 <body>
     <span id="back-link"><i class="fa-solid fa-arrow-left"></i>Back</span>
-    <div class="search-container" style="margin-top: 4vh;">
-        <div class="search-bar" style="width: 80vw;">
-            <input type="search" id="search-input" placeholder="Search Blog Posts">
-            <button id="search-btn">Search</button>
-        </div>
-    </div>
+    <h4>My Blog Posts</h4>
     <div class="blog-posts-container">
         <div class="inner-container">
-            <!--daniel, retrieve the blog post content here-->
+            <!--daniel, create new blog post here-->
+            <!--daniel, update existing blog posts here-->
+            <!--daniel, delete existing blog posts here-->
         </div>
     </div>
-    <!-- Moved the My Blog Posts button here -->
-    <span id="my-blog-posts-link"><i class="fa-solid fa-newspaper"></i> My Blog Posts</span>
+    <!-- Button Container -->
+    <div class="button-container d-flex justify-content-center mt-3">
+        <button class="btn btn-primary mx-2" id="create-post-btn">Create New Blog Post</button>
+        <button class="btn btn-secondary mx-2" id="update-post-btn">Update Existing Blog Posts</button>
+        <button class="btn btn-danger mx-2" id="delete-post-btn">Delete Existing Blog Posts</button>
     </div>
     <script src="BP.js"></script>
 </body>
 
 </html>
+

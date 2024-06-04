@@ -133,6 +133,21 @@ h5 {
   margin-right: 10px;
 }
 
+#my-blog-posts-link {
+  background-color: limegreen;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 2vh;
+}
+
+#my-blog-posts-link:hover {
+  background-color: green;
+}
+
+
 /*Blog Posts CSS*/
 .search-container {
   display: flex;
@@ -173,4 +188,23 @@ h5 {
 
 .search-bar button[type="button"]:hover {
   background-color: #3e8e41;
+}
+
+.blog-posts-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px; 
+  margin-top: 4vh; 
+  width: 90vw; 
+  background-color: lightgray; 
+  padding: 20px;
+}
+
+.inner-container {
+  background-color: white;
+  padding: 20px;
+  width: 86vw;
+  border-radius: 10px; 
+  height: 60vh; 
 }
