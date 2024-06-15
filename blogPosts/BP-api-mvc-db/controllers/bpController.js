@@ -24,7 +24,20 @@ const getBlogPostById = async (req, res) => {
   }
 };
 
+const createBlogPost = async (req, res) => {
+    const newBlogPost = req.body;
+    try {
+      const createdBlogPost = await BlogPost.createBlogPost(newBlogPost);
+      res.status(201).json(createdBlogPost);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error creating blog post");
+    }
+  };
+
+
 module.exports = {
   getAllBlogPosts,
   getBlogPostById,
+  createBlogPost
 };
