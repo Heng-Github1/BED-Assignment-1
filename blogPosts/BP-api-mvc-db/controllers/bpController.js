@@ -11,9 +11,9 @@ const getAllBlogPosts = async (req, res) => {
 };
 
 const getBlogPostById = async (req, res) => {
-  const id = parseInt(req.params.id);
+  const BPid = parseInt(req.params.id);
   try {
-    const blogPost = await BlogPost.getBlogPostById(id);
+    const blogPost = await BlogPost.getBlogPostById(BPid);
     if (!blogPost) {
       return res.status(404).send("Blog post not found");
     }
@@ -33,11 +33,28 @@ const createBlogPost = async (req, res) => {
       console.error(error);
       res.status(500).send("Error creating blog post");
     }
-  };
+};
+
+const updateBlogPost = async (req, res) => {
+    const BPid = parseInt(req.params.id);
+    const newBlogPost = req.body;
+  
+    try {
+      const updatedBlogPost = await BlogPost.updateBlogPost(BPid, newBlogPost); 
+      if (!updatedBlogPost) {
+        return res.status(404).send("Blog post not found");
+      }
+      res.json(updatedBlogPost);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error updating blog post");
+    }
+};
 
 
 module.exports = {
   getAllBlogPosts,
   getBlogPostById,
-  createBlogPost
+  createBlogPost,
+  updateBlogPost
 };

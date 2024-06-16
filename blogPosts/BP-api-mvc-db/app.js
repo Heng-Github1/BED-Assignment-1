@@ -19,6 +19,9 @@ app.get("/blogPosts/:id", bpController.getBlogPostById);
 // Route for CREATE requests
 app.post("/blogPosts", validateBlogPost, bpController.createBlogPost); 
 
+// Route for UPDATE requests
+app.put("/blogPosts/:id", validateBlogPost, bpController.updateBlogPost); // PUT for updating books
+
 // Establish db connection and graceful shutdown
 app.listen(port, async () => {
   try {

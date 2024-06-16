@@ -58,7 +58,7 @@ class BlogPost {
       : null;
   }
 
-  static async createBlogPost(newBPData) {
+  static async createBlogPost(createdBlogPost) {
     console.log("Creating new blog post...");
     const connection = await sql.connect(dbConfig);
   
@@ -67,9 +67,9 @@ class BlogPost {
     SELECT SCOPE_IDENTITY() AS BPid;`;
   
     const request = connection.request();
-    request.input("content", newBPData.content);
-    request.input("authorID", newBPData.authorID);
-    request.input("BPid", newBPData.BPid)
+    request.input("content", createdBlogPost.content);
+    request.input("authorID", createdBlogPost.authorID);
+    request.input("BPid", createdBlogPost.BPid)
   
     const result = await request.query(sqlQuery);
   
@@ -77,9 +77,34 @@ class BlogPost {
   
     connection.close();
   
-    // Retrieve the newly created book using its ID
+    // Retrieve the newly created BP using its ID
     console.log("Retrieving newly created blog post...");
     return this.getBlogPostById(result.recordset[0].BPid);
+  }
+
+  static async updateBlogPost(BPid, updatedBlogPost) {
+    const connection = await sql.connect(dbConfig);
+  
+    const sqlQuery = `UPDATE blogPosts SET content = @content, authorID = @authorID WHERE BPid = @BPid`; // Parameterized query
+  
+    const request = connection.request();
+    request.input("BPid", BPid || 0);
+    if (updatedBlogPost.content) {
+      request.input("content", updatedBlogPost.content);
+    } else {
+      request.input("content", sql.NVarChar, null);
+    }
+    if (updatedBlogPost.authorID) {
+      request.input("authorID", updatedBlogPost.authorID);
+    } else {
+      request.input("authorID", sql.Int, null);
+    }
+  
+    await request.query(sqlQuery);
+  
+    connection.close();
+  
+    return this.getBlogPostById(BPid); // returning the updated BP data
   }
 }
 
