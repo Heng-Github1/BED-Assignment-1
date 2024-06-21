@@ -1,0 +1,112 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    text-align: center;
+}
+
+h2{
+    color: green;
+}
+
+.container{
+    width: 1000px;
+    height: 500px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 50px auto;
+    position: relative;
+}
+
+.container > .top{
+    width: 600px;
+    height: 400px;
+    float: left;
+    border: 3px solid pink;
+    border-radius: 10px;
+}
+
+.container > .top > .top-image img{
+    width: 590px;
+    height: 250px;
+    float: left;
+    border: 3px solid aqua;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.container > .events{
+    width: 350px;
+    height: 400px;
+    float: right;
+    border: 3px solid pink;
+    border-radius: 10px;
+}
+
+.container > .events > .minievents {
+    width: 280px;
+    height: 150px;
+    margin: 25px auto;
+    border-radius: 10px;
+}
+
+.container > .events > .minievents img{
+    width: 280px;
+    height: 150px;
+    border: 3px solid aqua;
+    border-radius: 10px;
+}
+
+
+.asia{
+    width: 1000px;
+    height: 800px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 50px auto;
+    position: relative;
+}
+
+.asia > .countries {
+    width: 150px;
+    height: 50px;
+    float: left;
+    border: 3px solid pink;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.asia > .asia-container {
+    width: 950px;
+    height: 600px;
+    border: 3px solid pink;
+    border-radius: 10px;
+    margin-top: 120px;
+    margin-left: 15px;
+}
+
+.asia > .asia-container > .content{
+    width: 900px;
+    height: 150px;
+    border: 3px solid pink;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.asia > .asia-container > .content p {
+    float: left;
+    color: blue;
+}
+
+.asia > .asia-container > .content > .content-image img{
+    width: 350px;
+    height: 150px;
+    border: 3px solid aqua;
+    border-radius: 10px;
+    display: inline-block;
+}
