@@ -58,7 +58,7 @@ class BlogPost {
       : null;
   }
 
-  static async createBlogPost(createdBlogPost) {
+  static async createBlogPost(newBPData) {
     console.log("Creating new blog post...");
     const connection = await sql.connect(dbConfig);
   
@@ -67,9 +67,9 @@ class BlogPost {
     SELECT SCOPE_IDENTITY() AS BPid;`;
   
     const request = connection.request();
-    request.input("content", createdBlogPost.content);
-    request.input("authorID", createdBlogPost.authorID);
-    request.input("BPid", createdBlogPost.BPid)
+    request.input("content", newBPData.content);
+    request.input("authorID", newBPData.authorID);
+    request.input("BPid", newBPData.BPid)
   
     const result = await request.query(sqlQuery);
   
@@ -82,29 +82,39 @@ class BlogPost {
     return this.getBlogPostById(result.recordset[0].BPid);
   }
 
-  static async updateBlogPost(BPid, updatedBlogPost) {
+  static async updateBlogPost(BPid, newBPData) {
     const connection = await sql.connect(dbConfig);
   
     const sqlQuery = `UPDATE blogPosts SET content = @content, authorID = @authorID WHERE BPid = @BPid`; // Parameterized query
   
     const request = connection.request();
-    request.input("BPid", BPid || 0);
-    if (updatedBlogPost.content) {
-      request.input("content", updatedBlogPost.content);
-    } else {
-      request.input("content", sql.NVarChar, null);
-    }
-    if (updatedBlogPost.authorID) {
-      request.input("authorID", updatedBlogPost.authorID);
-    } else {
-      request.input("authorID", sql.Int, null);
-    }
+    request.input("BPid", BPid);
+    request.input("content", newBPData.content || null);
+    request.input("authorID", newBPData.authorID || null);
   
     await request.query(sqlQuery);
   
     connection.close();
   
     return this.getBlogPostById(BPid); // returning the updated BP data
+  }
+
+  static async deleteBlogPost(BPid) {
+    const connection = await sql.connect(dbConfig);
+  
+    const sqlQuery = `DELETE FROM blogPosts WHERE BPid = @BPid`; // Parameterized query
+  
+    const request = connection.request();
+    request.input("BPid", BPid);
+    const result = await request.query(sqlQuery);
+  
+    connection.close();
+  
+    if (result.rowsAffected === 0) {
+      console.error(`Blog post with ID ${BPid} not found`);
+    }
+  
+    return result.rowsAffected > 0;
   }
 }
 

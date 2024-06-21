@@ -2,7 +2,6 @@ const Joi = require("joi");
 
 const validateBlogPost = (req, res, next) => {
   const schema = Joi.object({
-    BPid: Joi.number().required(),
     content: Joi.string().min(5).required(),
     authorID: Joi.number().required()
   });

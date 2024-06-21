@@ -37,10 +37,10 @@ const createBlogPost = async (req, res) => {
 
 const updateBlogPost = async (req, res) => {
     const BPid = parseInt(req.params.id);
-    const newBlogPost = req.body;
+    const newBPData = req.body;
   
     try {
-      const updatedBlogPost = await BlogPost.updateBlogPost(BPid, newBlogPost); 
+      const updatedBlogPost = await BlogPost.updateBlogPost(BPid, newBPData); 
       if (!updatedBlogPost) {
         return res.status(404).send("Blog post not found");
       }
@@ -49,6 +49,21 @@ const updateBlogPost = async (req, res) => {
       console.error(error);
       res.status(500).send("Error updating blog post");
     }
+}
+
+const deleteBlogPost = async (req, res) => {
+        const BPid = parseInt(req.params.id);
+      
+        try {
+            const success = await BlogPost.deleteBlogPost(BPid);
+            if (!success) {
+              return res.status(404).send("Blog post not found");
+            }
+            res.status(204).send();
+          } catch (error) {
+            console.error(error);
+            res.status(500).send("Error deleting blog post");
+          }
 };
 
 
@@ -56,5 +71,6 @@ module.exports = {
   getAllBlogPosts,
   getBlogPostById,
   createBlogPost,
-  updateBlogPost
+  updateBlogPost,
+  deleteBlogPost
 };
