@@ -74,9 +74,9 @@ class News {
 
     const request = connection.request();
     request.input("newsid", newsid);
-    request.input("newArticleData", newArticleData.headline|| null); // Handle optional fields
-    request.input("newArticleData", newArticleData.content || null);
-    request.input("newArticleData", newArticleData.country || null);
+    request.input("headline", newArticleData.headline|| null); // Handle optional fields
+    request.input("content", newArticleData.content || null);
+    request.input("country", newArticleData.country || null);
 
     await request.query(sqlQuery);
 
