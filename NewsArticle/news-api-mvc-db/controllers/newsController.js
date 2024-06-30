@@ -11,7 +11,7 @@ const getAllNews = async (req, res) => {
 };
 
 const getNewsById = async (req, res) => {
-  const newsId = parseInt(req.params.id);
+  const newsId = parseInt(req.params.newsid);
   try {
     const news = await newsArticle.getNewsById(newsId);
     if (!news) {
@@ -36,7 +36,7 @@ const createNews = async (req, res) => {
 };
 
 const updateNews = async (req, res) => {
-  const newsId = parseInt(req.params.id);
+  const newsId = parseInt(req.params.newsid);
   const newArticleData = req.body;
 
   try {
@@ -52,7 +52,7 @@ const updateNews = async (req, res) => {
 };
 
 const deleteNews = async (req, res) => {
-  const newsId = parseInt(req.params.id);
+  const newsId = parseInt(req.params.newsid);
 
   try {
     const success = await newsArticle.deleteNews(newsId);
