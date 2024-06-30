@@ -36,27 +36,28 @@ class BlogPost {
   static async getBlogPostById(BPid) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `SELECT bp.BPid, bp.content, bp.authorID, bp.bpCreated, bp.bpModified, u.userID, u.username 
-      FROM blogPosts bp 
-      INNER JOIN users u ON bp.authorID = u.userID 
-      WHERE bp.BPid = @BPid`;
-
+    const sqlQuery = `SELECT * FROM blogPosts WHERE BPid = @BPid`;
+    
     const request = connection.request();
-    request.input("BPid", sql.Int, BPid);
+    request.input('BPid', sql.Int, BPid);
+    
     const result = await request.query(sqlQuery);
-
+    
     connection.close();
 
-    return result.recordset[0]
-      ? new BlogPost(
-          result.recordset[0].BPid,
-          result.recordset[0].content,
-          result.recordset[0].authorID,
-          result.recordset[0].bpCreated,
-          result.recordset[0].bpModified
-        )
-      : null;
-  }
+    if (result.recordset.length > 0) { 
+        return result.recordset.map(record => new BlogPost(
+            record.BPid,
+            record.content,
+            record.authorID,
+            record.bpCreated,
+            record.bpModified
+        ));
+      } else {
+          return null; // Return null if no blog post found with the given BPid
+      }
+}
+
 
   static async createBlogPost(newBPData) {
     console.log("Creating new blog post...");
@@ -69,7 +70,6 @@ class BlogPost {
     const request = connection.request();
     request.input("content", newBPData.content);
     request.input("authorID", newBPData.authorID);
-    request.input("BPid", newBPData.BPid)
   
     const result = await request.query(sqlQuery);
   
@@ -85,7 +85,7 @@ class BlogPost {
   static async updateBlogPost(BPid, newBPData) {
     const connection = await sql.connect(dbConfig);
   
-    const sqlQuery = `UPDATE blogPosts SET content = @content, authorID = @authorID WHERE BPid = @BPid`; // Parameterized query
+    const sqlQuery = `UPDATE blogPosts SET content = @content, authorID = @authorID, bpModified = GETDATE() WHERE BPid = @BPid`;; // Parameterized query
   
     const request = connection.request();
     request.input("BPid", BPid);
