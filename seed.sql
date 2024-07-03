@@ -1,10 +1,10 @@
-CREATE TABLE blogPosts ( 
-BPid INT PRIMARY KEY, 
-content NVARCHAR(MAX), 
-authorID INT, 
-bpCreated DATETIME, 
-bpModified DATETIME, 
-FOREIGN KEY (authorID) REFERENCES users(userID) 
+CREATE TABLE blogPosts (
+    BPid INT IDENTITY(1,1) PRIMARY KEY,
+    content NVARCHAR(MAX),
+    authorID INT,
+    bpCreated DATETIME,
+    bpModified DATETIME,
+    FOREIGN KEY (authorID) REFERENCES users(userID)
 );
 
 INSERT INTO blogPosts (BPid, content, authorID, bpCreated, bpModified)VALUES (1, 'This blog post explores the intricate relationship between politics, climate change, and technology, and their collective impact on education in Southeast Asia. It discusses how political decisions, environmental challenges posed by climate change, and advancements in technology shape the educational landscape of the region, affecting accessibility, curriculum development, and infrastructure. The post also examines potential strategies to address these challenges and foster inclusive and sustainable education in the region.', 1, '2024-06-13 08:30:00', '2024-06-13 08:30:00');
