@@ -59,28 +59,52 @@ class BlogPost {
 }
 
 
-  static async createBlogPost(newBPData) {
-    console.log("Creating new blog post...");
-    const connection = await sql.connect(dbConfig);
-  
-    const sqlQuery = `INSERT INTO BlogPosts (content, authorID, BPid, bpCreated, bpModified)
-    VALUES (@content, @authorID, @BPid, GETDATE(), GETDATE());
-    SELECT SCOPE_IDENTITY() AS BPid;`;
-  
-    const request = connection.request();
-    request.input("content", newBPData.content);
-    request.input("authorID", newBPData.authorID);
-  
+static async createBlogPost(newBPData) {
+  console.log("Creating new blog post...");
+  const pool = await sql.connect(dbConfig);
+
+  try {
+    const transaction = await pool.transaction();
+
+    // Begin the transaction
+    await transaction.begin();
+
+    // Define the SQL query with parameters and SCOPE_IDENTITY() to get the newly created BPid
+    const sqlQuery = `
+      INSERT INTO BlogPosts (content, authorID, bpCreated, bpModified)
+      VALUES (@content, @authorID, GETDATE(), GETDATE());
+      SELECT SCOPE_IDENTITY() AS BPid;
+    `;
+
+    // Prepare the request with the transaction
+    const request = new sql.Request(transaction);
+    request.input("content", sql.NVarChar(sql.MAX), newBPData.content);
+    request.input("authorID", sql.Int, newBPData.authorID);
+
+    // Execute the query and commit the transaction if successful
     const result = await request.query(sqlQuery);
-  
-    console.log("Result:", result);
-  
-    connection.close();
-  
+    await transaction.commit();
+
+    console.log("New blog post created:", result.recordset[0]);
+
     // Retrieve the newly created BP using its ID
-    console.log("Retrieving newly created blog post...");
-    return this.getBlogPostById(result.recordset[0].BPid);
+    const createdBP = await this.getBlogPostById(result.recordset[0].BPid);
+    console.log("Retrieved newly created blog post:", createdBP);
+
+    return createdBP;
+  } catch (error) {
+    // If any error occurs, rollback the transaction
+    if (transaction) {
+      await transaction.rollback();
+    }
+    console.error("Error creating blog post:", error.message);
+    throw error;
+  } finally {
+    // Close the connection pool
+    await pool.close();
   }
+}
+
 
   static async updateBlogPost(BPid, newBPData) {
     const connection = await sql.connect(dbConfig);
@@ -95,7 +119,7 @@ class BlogPost {
     await request.query(sqlQuery);
   
     connection.close();
-  
+
     return this.getBlogPostById(BPid); // returning the updated BP data
   }
 
