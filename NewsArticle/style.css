@@ -16,25 +16,22 @@ h2{
 .container{
     width: 1000px;
     height: 500px;
-    border: 3px solid black;
     border-radius: 10px;
     margin: 50px auto;
     position: relative;
 }
 
 .container > .top{
-    width: 600px;
+    width: 650px;
     height: 400px;
     float: left;
-    border: 3px solid pink;
     border-radius: 10px;
 }
 
 .container > .top > .top-image img{
     width: 590px;
-    height: 250px;
+    height: 300px;
     float: left;
-    border: 3px solid aqua;
     border-radius: 10px;
     margin-top: 20px;
 }
@@ -43,21 +40,23 @@ h2{
     width: 350px;
     height: 400px;
     float: right;
-    border: 3px solid pink;
     border-radius: 10px;
+    overflow-y: auto;
+    padding-bottom: 20px;
 }
 
 .container > .events > .minievents {
-    width: 280px;
+    width: 300px;
     height: 150px;
-    margin: 25px auto;
+    margin: 18px auto;
+    margin-left: 0px;
+    margin-bottom: 80px;
     border-radius: 10px;
 }
 
 .container > .events > .minievents img{
-    width: 280px;
+    width: 300px;
     height: 150px;
-    border: 3px solid aqua;
     border-radius: 10px;
 }
 
@@ -65,49 +64,67 @@ h2{
 .asia{
     width: 1000px;
     height: 800px;
-    border: 3px solid black;
     border-radius: 10px;
     margin: 50px auto;
     position: relative;
 }
 
+.asia > h2 {
+    margin-left: 20px;
+}
 .asia > .countries {
     width: 150px;
     height: 50px;
     float: left;
-    border: 3px solid pink;
     border-radius: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 15px;
+}
+
+.asia > .countries > button {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(196, 189, 189);
+    border-radius: 20px;
+    transition: background-color 0.3 ease-in-out;
+}
+
+.asia > .countries > button:hover {
+    background-color: pink;
 }
 
 .asia > .asia-container {
     width: 950px;
-    height: 600px;
-    border: 3px solid pink;
+    height: 700px;
+  
     border-radius: 10px;
-    margin-top: 120px;
+    margin-top: 90px;
     margin-left: 15px;
+    overflow-y: auto;
 }
 
 .asia > .asia-container > .content{
     width: 900px;
-    height: 150px;
-    border: 3px solid pink;
+    height: 200px;
     border-radius: 10px;
     margin-top: 20px;
-    margin-left: 15px;
+    margin-left: 0px;
+    display: flex;
 }
 
-.asia > .asia-container > .content p {
-    float: left;
-    color: blue;
+.asia > .asia-container > .content h2{
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
 }
+
 
 .asia > .asia-container > .content > .content-image img{
-    width: 350px;
-    height: 150px;
-    border: 3px solid aqua;
+    width: 380px;
+    height: 200px;
     border-radius: 10px;
     display: inline-block;
 }
