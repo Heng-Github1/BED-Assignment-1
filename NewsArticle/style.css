@@ -185,11 +185,25 @@ h2{
     width: 1000px;
     height: 350px;
     border: 3px solid black;
-    margin: 50px auto;
+    margin: 35px auto;
+
+}
+.mainContainer > .contentContainer > .contentStart{
+    width: 970px;
+    margin: 20px auto;
+    margin-left: 5px;
+    display: flex;
+    align-items: flex-start;
 }
 
-.mainContainer > .contentContainer > p{
-    font-size: 30px;
+.mainContainer > .contentContainer > .contentStart > input{
+    width: 90%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 20px;
+    border: none;
+    outline: none;
 }
 
 .mainContainer > button{
