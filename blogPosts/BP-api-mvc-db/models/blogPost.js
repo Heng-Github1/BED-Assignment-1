@@ -36,56 +36,80 @@ class BlogPost {
   static async getBlogPostById(BPid) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `SELECT bp.BPid, bp.content, bp.authorID, bp.bpCreated, bp.bpModified, u.userID, u.username 
-      FROM blogPosts bp 
-      INNER JOIN users u ON bp.authorID = u.userID 
-      WHERE bp.BPid = @BPid`;
-
+    const sqlQuery = `SELECT * FROM blogPosts WHERE BPid = @BPid`;
+    
     const request = connection.request();
-    request.input("BPid", sql.Int, BPid);
+    request.input('BPid', sql.Int, BPid);
+    
     const result = await request.query(sqlQuery);
-
+    
     connection.close();
 
-    return result.recordset[0]
-      ? new BlogPost(
-          result.recordset[0].BPid,
-          result.recordset[0].content,
-          result.recordset[0].authorID,
-          result.recordset[0].bpCreated,
-          result.recordset[0].bpModified
-        )
-      : null;
-  }
+    if (result.recordset.length > 0) { 
+        return result.recordset.map(record => new BlogPost(
+            record.BPid,
+            record.content,
+            record.authorID,
+            record.bpCreated,
+            record.bpModified
+        ));
+      } else {
+          return null; // Return null if no blog post found with the given BPid
+      }
+}
 
-  static async createBlogPost(newBPData) {
-    console.log("Creating new blog post...");
-    const connection = await sql.connect(dbConfig);
-  
-    const sqlQuery = `INSERT INTO BlogPosts (content, authorID, BPid, bpCreated, bpModified)
-    VALUES (@content, @authorID, @BPid, GETDATE(), GETDATE());
-    SELECT SCOPE_IDENTITY() AS BPid;`;
-  
-    const request = connection.request();
-    request.input("content", newBPData.content);
-    request.input("authorID", newBPData.authorID);
-    request.input("BPid", newBPData.BPid)
-  
+
+static async createBlogPost(newBPData) {
+  console.log("Creating new blog post...");
+  const pool = await sql.connect(dbConfig);
+
+  try {
+    const transaction = await pool.transaction();
+
+    // Begin the transaction
+    await transaction.begin();
+
+    // Define the SQL query with parameters and SCOPE_IDENTITY() to get the newly created BPid
+    const sqlQuery = `
+      INSERT INTO BlogPosts (content, authorID, bpCreated, bpModified)
+      VALUES (@content, @authorID, GETDATE(), GETDATE());
+      SELECT SCOPE_IDENTITY() AS BPid;
+    `;
+
+    // Prepare the request with the transaction
+    const request = new sql.Request(transaction);
+    request.input("content", sql.NVarChar(sql.MAX), newBPData.content);
+    request.input("authorID", sql.Int, newBPData.authorID);
+
+    // Execute the query and commit the transaction if successful
     const result = await request.query(sqlQuery);
-  
-    console.log("Result:", result);
-  
-    connection.close();
-  
+    await transaction.commit();
+
+    console.log("New blog post created:", result.recordset[0]);
+
     // Retrieve the newly created BP using its ID
-    console.log("Retrieving newly created blog post...");
-    return this.getBlogPostById(result.recordset[0].BPid);
+    const createdBP = await this.getBlogPostById(result.recordset[0].BPid);
+    console.log("Retrieved newly created blog post:", createdBP);
+
+    return createdBP;
+  } catch (error) {
+    // If any error occurs, rollback the transaction
+    if (transaction) {
+      await transaction.rollback();
+    }
+    console.error("Error creating blog post:", error.message);
+    throw error;
+  } finally {
+    // Close the connection pool
+    await pool.close();
   }
+}
+
 
   static async updateBlogPost(BPid, newBPData) {
     const connection = await sql.connect(dbConfig);
   
-    const sqlQuery = `UPDATE blogPosts SET content = @content, authorID = @authorID WHERE BPid = @BPid`; // Parameterized query
+    const sqlQuery = `UPDATE blogPosts SET content = @content, authorID = @authorID, bpModified = GETDATE() WHERE BPid = @BPid`;; // Parameterized query
   
     const request = connection.request();
     request.input("BPid", BPid);
@@ -95,7 +119,7 @@ class BlogPost {
     await request.query(sqlQuery);
   
     connection.close();
-  
+
     return this.getBlogPostById(BPid); // returning the updated BP data
   }
 

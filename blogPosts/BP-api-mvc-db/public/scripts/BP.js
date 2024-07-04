@@ -1,4 +1,4 @@
-async function fetchBlogPosts() {
+/*async function fetchBlogPosts() {
   const response = await fetch("/blogPosts");
   const data = await response.json();
 
@@ -46,4 +46,4 @@ createBlogPostForm.addEventListener("submit", async (event) => {
   console.log(data);
 
   fetchBlogPosts(); // Fetch blog posts again to update the list
-});
+});*/

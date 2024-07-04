@@ -3,7 +3,9 @@ const Joi = require("joi");
 const validateBlogPost = (req, res, next) => {
   const schema = Joi.object({
     content: Joi.string().min(5).required(),
-    authorID: Joi.number().required()
+    authorID: Joi.number().required(),
+    bpCreated: Joi.date().iso().allow(null),
+    bpModified: Joi.date().iso().allow(null)
   });
 
   const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body
