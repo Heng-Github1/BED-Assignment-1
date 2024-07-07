@@ -27,9 +27,9 @@ app.post("/login", validateUser, usersController.loginUser);
 app.get("/books", booksController.getAllBooks);
 
 //Routes for POST requests
-app.post("/books", auth.verifyJWT, validateBook, booksController.createBook);
+app.post("/books", auth, validateBook, booksController.createBook);
 //Routes for PUT requests
-app.put("/books/:bookId/availability", auth.verifyJWT,validateBook, booksController.updateBookAvailability);
+app.put("/books/:bookId/availability", auth,validateBook, booksController.updateBookAvailability);
 
 
 app.listen(port, async () => {
