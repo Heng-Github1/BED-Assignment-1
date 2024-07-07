@@ -143,4 +143,3 @@ static async createBlogPost(newBPData) {
 }
 
 module.exports = BlogPost;
-
