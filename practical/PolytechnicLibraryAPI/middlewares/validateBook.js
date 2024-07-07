@@ -14,7 +14,7 @@ const validateBook = (req, res, next) => {
     return res.status(400).json({ message: "Validation error", errors });
   }
 
-  next(); // If validation passes, proceed to the next route handler
+  next(); 
 };
 
 module.exports = validateBook;

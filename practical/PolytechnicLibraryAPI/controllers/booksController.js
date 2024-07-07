@@ -67,15 +67,6 @@ const deleteBook = async (req, res) => {
     }
 }
 
-/*const getBooksCount = async (req, res) => {
-    try{
-        const count = await Book.countBooks();
-        res.json(count);
-    } catch (error){
-        console.error(error);
-        res.status(500).send("Error retrieving book count");
-    }
-}*/
 
 async function searchBooks(req, res) { //search for book using searchTerm
     const searchTerm = req.query.searchTerm; 
@@ -111,7 +102,6 @@ module.exports = {
     createBook,
     updateBook,
     deleteBook,
-    //getBooksCount,
     searchBooks,
     updateBookAvailability
 };
