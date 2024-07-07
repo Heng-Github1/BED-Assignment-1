@@ -139,6 +139,7 @@ class User {
       throw new Error("Error searching users");
     }
   }
+}
 
   /*static async getUsersWithBooks() {
     try {
@@ -179,6 +180,6 @@ class User {
       throw new Error("Error fetching users with books");
     }
   }*/
-}
+
 
 module.exports = User;

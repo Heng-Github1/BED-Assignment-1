@@ -110,14 +110,16 @@ const usersController = require("./controllers/usersController");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser"); //Import body-parser
+const auth = require("./middlewares/auth");
 
 //import middleware
 const validateBook = require("./middlewares/validateBook"); 
 const validateUser = require("./middlewares/validateUser"); 
-const verifyJWT = require("./middlewares/auth"); 
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
+
+const staticMiddleware = express.static("public"); // Path to the public folder
 
 // Include body-parser middleware to handle JSON data
 app.use(bodyParser.json());
@@ -131,9 +133,9 @@ app.post("/login", validateUser, usersController.loginUser);
 app.get("/books", booksController.getAllBooks);
 
 //Routes for POST requests
-app.post("/books", auth, validateBook, booksController.createBook);
+app.post("/books", auth.verifyJWT, validateBook, booksController.createBook);
 //Routes for PUT requests
-app.put("/books/:bookId/availability", auth,validateBook, booksController.updateBookAvailability);
+app.put("/books/:bookId/availability", auth.verifyJWT,validateBook, booksController.updateBookAvailability);
 
 
 app.listen(port, async () => {
