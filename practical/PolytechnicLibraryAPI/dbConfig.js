@@ -22,4 +22,13 @@ async function connectDB() {
   }
 }
 
-module.exports = { sql, connectDB };
+async function closeDB() {
+  try {
+    await sql.close();
+    console.log('Disconnected from the database');
+  } catch (err) {
+    console.error('Database disconnection failed:', err);
+  }
+}
+
+module.exports = { sql, connectDB, closeDB };

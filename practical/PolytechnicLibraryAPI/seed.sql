@@ -27,8 +27,3 @@ VALUES
 ('The Great Gatsby', 'F. Scott Fitzgerald', 'Y'),
 ('The Catcher in the Rye', 'J.D. Salinger', 'N'),
 ('Moby-Dick', 'Herman Melville', 'Y');
-
-
-SELECT * FROM Users
-
-SELECT * FROM Books

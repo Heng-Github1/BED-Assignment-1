@@ -1,26 +1,25 @@
-// Middleware for JWT verification
 function verifyJWT(req, res, next) {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
-  if (!token) {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  try {
+    }
+  
+    try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;
       next();
-  } catch (err) {
+    } catch (err) {
       res.status(403).json({ message: 'Forbidden' });
+    }
   }
-}
-
-// Middleware for role-based authorization
-function authorizeRole(roles) {
-  return (req, res, next) => {
+  
+  function authorizeRole(roles) {
+    return (req, res, next) => {
       if (!roles.includes(req.user.role)) {
-          return res.status(403).json({ message: 'Forbidden' });
+        return res.status(403).json({ message: 'Forbidden' });
       }
       next();
-  };
-}
-module.exports = { verifyJWT, authorizeRole };
+    };
+  }
+  
+  module.exports = { verifyJWT, authorizeRole };
