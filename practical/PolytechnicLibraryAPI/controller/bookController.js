@@ -1,26 +1,117 @@
-const { sql } = require('../dbConfig');  // Adjust the path if necessary
+const Book = require("../models/books");
 
-async function getAllBooks(req, res) {
-  try {
-    const result = await sql.query`SELECT * FROM Books`;
-    res.json(result.recordset);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
+const getAllBooks = async (req, res) => {
+    try{
+        const books = await Book.getAllBooks();
+        res.json(books);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving books");
+    }
+};
+
+const getBookById = async (req, res) => {
+    const bookId = parseInt(req.params.id);
+    try {
+        const book = await Book.getBookById(bookId);
+        if (!book) {
+            return res.status(404).send("Book not found");
+        }
+        res.json(book);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving book");
+    }
+};
+
+
+const createBook = async (req, res) => {
+    const newBook = req.body;
+    try {
+      const createdBook = await Book.createBook(newBook);
+      res.status(201).json(createdBook);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error creating book");
+    }
+};
+
+const updateBook = async (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const newBook = req.body;
+
+    try{
+        const updatedBook = await Book.updateBook(bookId, newBook);
+        if (!updatedBook) {
+            return res.status(404).send("Book not found");
+        }
+        res.json(updatedBook);
+    } catch (error){
+        console.error(error);
+        res.status(500).send("Error updating book");
+    }
 }
 
-async function updateBookAvailability(req, res) {
-  const { bookId } = req.params;
-  const { availability } = req.body;
+const deleteBook = async (req, res) => {
+    const BookId = parseInt(req.params.id);
 
-  try {
-    await sql.query`UPDATE Books SET availability = ${availability} WHERE book_id = ${bookId}`;
-    res.json({ message: 'Book availability updated successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
+    try{
+        const success = await Book.deleteBook(BookId);
+        if (!success){
+            return res.status(404).send("Book not found");
+        }
+        res.status(204).send("Book deleted");
+    } catch (error){
+        console.error(error);
+        res.status(500).send("Error deleting book");
+    }
 }
 
-module.exports = { getAllBooks, updateBookAvailability };
+/*const getBooksCount = async (req, res) => {
+    try{
+        const count = await Book.countBooks();
+        res.json(count);
+    } catch (error){
+        console.error(error);
+        res.status(500).send("Error retrieving book count");
+    }
+}*/
+
+async function searchBooks(req, res) { //search for book using searchTerm
+    const searchTerm = req.query.searchTerm; 
+  
+    try {    
+      const books = await Book.searchBooks(searchTerm);
+      res.json(books);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error searching books" });
+    }
+}
+
+const updateBookAvailability = async (req, res) => {
+    const bookId = parseInt(req.params.bookId);
+    const { availability } = req.body;
+
+    try {
+        const updatedBook = await Book.updateBookAvailability(bookId, availability);
+        if (!updatedBook) {
+            return res.status(404).send("Book not found");
+        }
+        res.json(updatedBook);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error updating book availability");
+    }
+};
+
+module.exports = {
+    getAllBooks,
+    getBookById,
+    createBook,
+    updateBook,
+    deleteBook,
+    //getBooksCount,
+    searchBooks,
+    updateBookAvailability
+};
