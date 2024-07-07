@@ -1,4 +1,4 @@
-const { sql } = require('../config/db');
+const { sql } = require('../dbConfig');  // Adjust the path if necessary
 
 async function getAllBooks(req, res) {
   try {

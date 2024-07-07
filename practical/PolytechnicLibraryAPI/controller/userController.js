@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { sql } = require('../config/db');
+const { sql } = require('../dbConfig');  // Adjust the path if necessary
 
 async function register(req, res) {
   const { username, password, role } = req.body;
