@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const validateBlogPost = (req, res, next) => {
   const schema = Joi.object({
-    content: Joi.string().min(5).required(),
+    content: Joi.string().min(30).required(),
     authorID: Joi.number().required(),
     bpCreated: Joi.date().iso().allow(null),
     bpModified: Joi.date().iso().allow(null)
