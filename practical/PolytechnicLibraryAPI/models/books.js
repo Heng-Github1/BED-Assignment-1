@@ -115,18 +115,6 @@ class Book {
     }
   }
 
-  /*static async countBooks() {
-    let pool;
-    try {
-      pool = await sql.connect(dbConfig);
-      const sqlQuery = `SELECT COUNT(*) AS count FROM Books`;
-      const result = await pool.request().query(sqlQuery);
-
-      return result.recordset[0].count;
-    } finally {
-      if (pool) pool.close();
-    }
-  }*/
 
 static async updateBookAvailability(book_id, newAvailability) {
     let pool;
@@ -140,7 +128,6 @@ static async updateBookAvailability(book_id, newAvailability) {
         WHERE book_id = @book_id
       `;
 
-      // Execute the update query
       await pool.request()
         .input("availability", newAvailability)
         .input("book_id", book_id)

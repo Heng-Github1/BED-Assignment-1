@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const User = require('..models/user')
+const User = require('../models/user')
 const jwt = require('jsonwebtoken');
 //const { sql } = require('../config/db');
 require ("dotenv").config();
@@ -129,15 +129,6 @@ async function searchUsers(req, res) {
   }
 }
 
-/*async function getUsersWithBooks(req, res) {
-  try {
-      const users = await User.getUsersWithBooks();
-      res.json(users);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error fetching users with books" });
-  }
-}*/
 
 async function registerUser(req, res) {
   const { username, password, role } = req.body;
@@ -216,7 +207,6 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
-  //getUsersWithBooks,
   registerUser,
   loginUser
 };

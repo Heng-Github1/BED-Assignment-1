@@ -1,34 +1,11 @@
-const sql = require('mssql');
-require('dotenv').config();
-
-const config = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
+module.exports = {
+  user: "booksapi_user", // Replace with your SQL Server login username
+  password: "P@ssw0rd2006", // Replace with your SQL Server login password
+  server: "localhost",
+  database: "PolytechnicLibrary", //Replace with your database name
+  trustServerCertificate: true,
   options: {
-    encrypt: true,
-    trustServerCertificate: true,
+    port: 1433, // Default SQL Server port
+    connectionTimeout: 60000, // Connection timeout in milliseconds
   },
 };
-
-async function connectDB() {
-  try {
-    await sql.connect(config);
-    console.log('Connected to the database');
-  } catch (err) {
-    console.error('Database connection failed:', err);
-    process.exit(1);
-  }
-}
-
-async function closeDB() {
-  try {
-    await sql.close();
-    console.log('Disconnected from the database');
-  } catch (err) {
-    console.error('Database disconnection failed:', err);
-  }
-}
-
-module.exports = { sql, connectDB, closeDB };
