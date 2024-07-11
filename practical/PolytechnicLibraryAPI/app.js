@@ -1,9 +1,18 @@
+require('dotenv').config(); // Ensure this is at the very top
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sql = require('mssql');
-require('dotenv').config();
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json");
+
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_SERVER:', process.env.DB_SERVER);
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,8 +24,8 @@ const dbConfig = {
     server: process.env.DB_SERVER,
     database: process.env.DB_NAME,
     options: {
-        encrypt: true, // for Azure
-        trustServerCertificate: true // change to true for local dev / self-signed certs
+        encrypt: true,
+        trustServerCertificate: true
     }
 };
 
@@ -103,3 +112,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
