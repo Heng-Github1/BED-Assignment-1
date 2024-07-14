@@ -1,12 +1,16 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
+// Middleware function to verify JWT token and authorize user roles
 function verifyJWT(req, res, next) {
+  // Extract token from Authorization header
   const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
+  // Verify token using the secret key
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       if (err.name === "TokenExpiredError") {
@@ -15,17 +19,18 @@ function verifyJWT(req, res, next) {
       return res.status(403).json({ message: "Forbidden" });
     }
 
-    // Authorization for different roles
+    // Define authorized roles for each endpoint
     const authorizedRoles = {
-      "/books": ["member", "librarian"], 
-      "/books/[0-9]+/availability": ["librarian"], 
+      "/books": ["member", "librarian"],
+      "/books/[0-9]+/availability": ["librarian"],
     };
 
     const requestedEndpoint = req.url;
     const userRole = decoded.role;
 
+    // Check if the user's role is authorized to access the requested endpoint
     const authorizedRole = Object.entries(authorizedRoles).find(([endpoint, roles]) => {
-      const regex = new RegExp(`^${endpoint}$`); // Create RegExp from endpoint
+      const regex = new RegExp(`^${endpoint}$`);
       return regex.test(requestedEndpoint) && roles.includes(userRole);
     });
 
@@ -33,7 +38,8 @@ function verifyJWT(req, res, next) {
       return res.status(403).json({ message: "Forbidden" });
     }
 
-    req.user = decoded; 
+    // Attach decoded user information to the request object
+    req.user = decoded;
     next();
   });
 }
