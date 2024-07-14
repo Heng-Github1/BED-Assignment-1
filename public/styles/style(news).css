@@ -1,0 +1,302 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* index.html --------------------------------------*/
+h1{
+    text-align: center;
+}
+
+h2{
+    color: green;
+}
+
+.container{
+    width: 1000px;
+    height: 500px;
+    border-radius: 10px;
+    margin: 50px auto;
+    position: relative;
+}
+
+.container > .top{
+    width: 650px;
+    height: 400px;
+    float: left;
+    border-radius: 10px;
+}
+
+.container > .top > .top-image img{
+    width: 590px;
+    height: 300px;
+    float: left;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.container > .events{
+    width: 350px;
+    height: 400px;
+    float: right;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.container > .events > .minievents {
+    width: 300px;
+    height: 150px;
+    margin: 18px auto;
+    margin-left: 0px;
+    margin-bottom: 80px;
+    border-radius: 10px;
+}
+
+.container > .events > .minievents img{
+    width: 300px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+
+.asia{
+    width: 1000px;
+    height: 800px;
+    border-radius: 10px;
+    margin: 50px auto;
+    position: relative;
+}
+
+.asia > h2 {
+    margin-left: 20px;
+}
+.asia > .countries {
+    width: 150px;
+    height: 50px;
+    float: left;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.asia > .countries > button {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(196, 189, 189);
+    border-radius: 20px;
+    transition: background-color 0.3 ease-in-out;
+}
+
+.asia > .countries > button:hover {
+    background-color: pink;
+}
+
+.asia > .asia-container {
+    width: 950px;
+    height: 700px;
+  
+    border-radius: 10px;
+    margin-top: 90px;
+    margin-left: 15px;
+    overflow-y: auto;
+}
+
+.asia > .asia-container > .content{
+    width: 900px;
+    height: 200px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 0px;
+    display: flex;
+}
+
+.asia > .asia-container > .content h2{
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+.asia > .asia-container > .content > .content-image img{
+    width: 380px;
+    height: 200px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+/* createNews.html --------------------------------------*/
+.emptySpace{
+    width: 100px;
+    height: 20px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 30px auto;
+    
+}
+.mainContainer{
+    width: 1100px;
+    height: 750px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 50px auto;
+    position: relative;
+}
+
+.mainContainer > .fillerContainer {
+    width: 1100px;
+    height: 110px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+}
+
+.mainContainer > .fillerContainer > .selectCountry{
+    width: 400px;
+    height: 50px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.mainContainer > .fillerContainer > .selectCountry > p{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.mainContainer > .fillerContainer > .newsIdContainer{
+    width: 400px;
+    height: 50px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: 50px;
+}
+
+.mainContainer > .fillerContainer > .newsIdContainer > p{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.mainContainer > .headlineContainer {
+    width: 1000px;
+    height: 80px;
+    border: 3px solid black;
+    margin: 35px auto;
+}
+
+.mainContainer > .headlineContainer > p{
+    font-size: 30px;
+}
+
+.mainContainer > .contentContainer {
+    width: 1000px;
+    height: 350px;
+    border: 3px solid black;
+    margin: 35px auto;
+
+}
+.mainContainer > .contentContainer > .contentStart{
+    width: 970px;
+    margin: 20px auto;
+    margin-left: 5px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.mainContainer > .contentContainer > .contentStart > input{
+    width: 90%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+.mainContainer > button{
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    font-weight: bolder;
+    padding: 10px;
+    color: white;
+    background-color: rgb(21, 179, 21);
+    border-radius: 10px;
+}
+
+/* updateDeleteNews.html --------------------------------------*/
+.mainContainer > .insertIdContainer {
+    width: 500px;
+    height: 50px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 50px;
+}
+
+.mainContainer > .insertIdContainer > p {
+    font-size: 30px;
+}
+
+.mainContainer > .fillerContainer2 {
+    width: 400px;
+    height: 70px;
+    border-radius: 10px;
+    bottom: 25px;
+    left: 32%;
+    position: absolute;
+    display: flex;
+}
+
+.mainContainer > .fillerContainer2 >.updateBtn {
+    width: 200px;
+    height: 70px;
+    margin-right: 3px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.mainContainer > .fillerContainer2 >.updateBtn > button {
+    align-items: center;
+    font-size: 40px;
+    font-weight: bolder;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    color: white;
+    background-color: rgb(13, 41, 201);
+    border-radius: 10px;
+}
+
+.mainContainer > .fillerContainer2 >.deleteBtn {
+    width: 200px;
+    height: 70px;
+    margin-left: 3px;
+    border-radius: 10px;
+    position: relative; 
+}
+
+.mainContainer > .fillerContainer2 >.deleteBtn > button {
+    align-items: center;
+    font-size: 40px;
+    font-weight: bolder;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    color: white;
+    background-color: rgb(197, 11, 11);
+    border-radius: 10px;
+}
