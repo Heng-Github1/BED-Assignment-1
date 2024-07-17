@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
+// User class to represent and manage user data
 class User {
   constructor(userID, username, email, password, role, userCreated, userModified) {
     this.userID = userID;
@@ -13,9 +14,10 @@ class User {
   }
 
   //---------------GET ALL USERS------------------
+  // Retrieve all users from the database
   static async getAllUsers() {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT * FROM users`; 
+    const sqlQuery = `SELECT * FROM users`;
     const request = connection.request();
     const result = await request.query(sqlQuery);
     connection.close();
@@ -25,6 +27,7 @@ class User {
   }
 
   //---------------GET A SINGLE USER------------------
+  // Retrieve a single user by ID from the database
   static async getUserById(userID) {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `SELECT * FROM users WHERE userID = @userID`;
@@ -45,25 +48,28 @@ class User {
       : null;
   }
 
-  //--------------- CREATE A USER------------------
-  static async createUser(userData) {
+  //---------------CREATE A USER------------------
+  // Create a new user in the database
+  async save() {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `INSERT INTO users (username, email, password, role, userCreated, userModified) 
                       VALUES (@username, @email, @password, @role, @userCreated, @userModified); 
                       SELECT SCOPE_IDENTITY() AS userID;`;
     const request = connection.request();
-    request.input("username", userData.username);
-    request.input("email", userData.email);
-    request.input("password", userData.password);
-    request.input("role", userData.role);
-    request.input("userCreated", userData.userCreated);
-    request.input("userModified", userData.userModified);
+    request.input("username", this.username);
+    request.input("email", this.email);
+    request.input("password", this.password);
+    request.input("role", this.role);
+    request.input("userCreated", this.userCreated);
+    request.input("userModified", this.userModified);
     const result = await request.query(sqlQuery);
     connection.close();
-    return this.getUserById(result.recordset[0].userID);
+    this.userID = result.recordset[0].userID; // Set the userID after insertion
+    return this;
   }
 
-  //--------------- UPDATE A USER------------------
+  //---------------UPDATE A USER------------------
+  // Update an existing user in the database
   static async updateUser(userID, userData) {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `UPDATE users 
@@ -82,7 +88,8 @@ class User {
     return this.getUserById(userID);
   }
 
-  //--------------- DELETE A USER------------------
+  //---------------DELETE A USER------------------
+  // Delete a user from the database
   static async deleteUser(userID) {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `DELETE FROM users WHERE userID = @userID`;
@@ -91,6 +98,28 @@ class User {
     const result = await request.query(sqlQuery);
     connection.close();
     return result.rowsAffected > 0;
+  }
+
+  //---------------FIND USER BY USERNAME------------------
+  // Find a user by their username
+  static async findByUsername(username) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `SELECT * FROM users WHERE username = @username`;
+    const request = connection.request();
+    request.input("username", username);
+    const result = await request.query(sqlQuery);
+    connection.close();
+    return result.recordset[0]
+      ? new User(
+          result.recordset[0].userID,
+          result.recordset[0].username,
+          result.recordset[0].email,
+          result.recordset[0].password,
+          result.recordset[0].role,
+          result.recordset[0].userCreated,
+          result.recordset[0].userModified
+        )
+      : null;
   }
 }
 
