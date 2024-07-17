@@ -50,10 +50,6 @@ nav a:hover {
   text-align: center;
 }
 
-/*.BP-container {
-  height: 380vh;
-}*/
-
 h1 {
   font-size: 6em;
   color: white;
@@ -80,19 +76,6 @@ h1::before {
   -webkit-text-stroke: 0.1vw grey;
 }
 
-h2 {
-  font-size: 55px;
-  color: black;
-  margin-top: 15vh;
-}
-
-h3 {
-  color: white;
-  margin-top: 1vh;
-  font-size: 24px;
-  color: black;
-}
-
 h4 {
   font-size: 35px;
   color: black;
@@ -108,7 +91,6 @@ h5 {
   text-align: center;
   padding: 20px;
   background-color: white;
-  margin-top: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -125,29 +107,6 @@ h5 {
 
 }
 
-#back-link:hover {
-  color: #666;
-}
-
-#back-link i {
-  margin-right: 10px;
-}
-
-#my-blog-posts-link {
-  background-color: limegreen;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 2vh;
-}
-
-#my-blog-posts-link:hover {
-  background-color: green;
-}
-
-
 /*Blog Posts CSS*/
 .search-container {
   display: flex;
@@ -155,18 +114,7 @@ h5 {
   align-items: center;
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-}
-
-.search-bar input[type="search"] {
+.search-container input[type="search"] {
   width: 75%;
   height: 40px;
   font-size: 18px;
@@ -174,7 +122,7 @@ h5 {
   border: 1px solid #ddd;
 }
 
-.search-bar button[type="button"] {
+.search-container button[type="button"] {
   width: 23%;
   height: 40px;
   font-size: 18px;
@@ -186,7 +134,7 @@ h5 {
   cursor: pointer;
 }
 
-.search-bar button[type="button"]:hover {
+.search-container button[type="button"]:hover {
   background-color: #3e8e41;
 }
 
@@ -195,17 +143,20 @@ h5 {
   align-items: center;
   justify-content: center;
   border-radius: 10px; 
-  margin-top: 4vh; 
   width: 90vw; 
   background-color: lightgray; 
   padding: 20px;
 }
 
-.inner-container {
+.blog-posts-container .inner-container {
   background-color: white;
   padding: 20px;
   border-radius: 10px; 
-  height: 60vh; 
+  height: 50vh; 
   max-width: 800px;
   margin: auto;
+}
+
+.btn-btn-secondary{
+  background-color: #4CAF50;
 }
