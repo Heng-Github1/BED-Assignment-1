@@ -30,6 +30,7 @@ app.get("/blogPosts/:id", bpController.getBlogPostById);
 app.post("/blogPosts", validateBlogPost, bpController.createBlogPost); 
 app.put("/blogPosts/:id", validateBlogPost, bpController.updateBlogPost); 
 app.delete("/blogPosts/:id", bpController.deleteBlogPost);
+app.get('/blogPosts', bpController.searchBlogPosts); 
 
 // User routes
 app.get("/users", userController.getAllUsers);

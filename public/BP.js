@@ -41,13 +41,33 @@ document.getElementById("back-link").addEventListener("click", () => {
 // Search bar
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
+// BP.js
 searchBtn.addEventListener('click', () => {
   const searchQuery = searchInput.value.trim();
   if (searchQuery !== '') {
-    fetch(`/blog-posts?search=${searchQuery}`)
+    fetch(`/blogPosts?searchTerm=${searchQuery}`)
       .then(response => response.json())
       .then(data => {
-        // Handle the search results data
+        const blogPostsContainer = document.getElementById('blog-posts-inner-container');
+        blogPostsContainer.innerHTML = ''; // Clear previous content
+
+        data.forEach(post => {
+          const postCard = document.createElement('div');
+          postCard.classList.add('col-md-6', 'col-lg-4', 'mb-4');
+
+          postCard.innerHTML = `
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">Post ID: ${post.BPid}</h5>
+                <p class="card-text">${post.content}</p>
+                <p class="text-muted">Author: ${post.authorID}</p>
+                <p class="text-muted">Published: ${new Date(post.bpCreated).toLocaleDateString()}</p>
+              </div>
+            </div>
+          `;
+
+          blogPostsContainer.appendChild(postCard);
+        });
       })
       .catch(error => {
         console.error(error);

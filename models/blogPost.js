@@ -100,6 +100,7 @@ static async createBlogPost(newBPData) {
       console.log("Retrieved newly created blog post:", createdBP);
 
       return createdBP;
+
   } catch (error) {
       // If any error occurs, rollback the transaction
       if (transaction) {
@@ -148,6 +149,15 @@ static async createBlogPost(newBPData) {
     }
   
     return result.rowsAffected > 0;
+  }
+
+  static async searchBlogPosts(searchTerm) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `SELECT * FROM blogPosts WHERE content LIKE '%${searchTerm}%'`;
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+    connection.close();
+    return result.recordset;
   }
 }
 
