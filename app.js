@@ -8,6 +8,9 @@ const bodyParser = require("body-parser");
 const validateNews = require("./middlewares/validateNews"); 
 const validateBlogPost = require("./middlewares/validateBlogPost");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+
 const app = express();
 const port = 3000; 
 
@@ -38,6 +41,8 @@ app.get("/users/:userID", userController.getUserById);
 app.post("/users", userController.createUser);
 app.delete("/users/:userID", userController.deleteUser);
 app.patch("/users/:userID", userController.updateUser);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument)); //Swagger route
 
 app.listen(port, async () => {
   try {
