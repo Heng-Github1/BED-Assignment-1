@@ -10,6 +10,8 @@ const validateNews = require("./middlewares/validateNews");
 const validateBlogPost = require("./middlewares/validateBlogPost");
 const auth = require('./middlewares/auth'); // JWT middleware
 const dbConfig = require("./dbConfig");
+
+const swaggerUi = require("swagger-ui-express");
 const { swaggerUi, swaggerDocs } = require('./swagger'); // Swagger setup
 
 const app = express();

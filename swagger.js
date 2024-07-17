@@ -6,7 +6,7 @@ const swaggerOptions = {
     info: {
       title: 'News and Blog Post API',
       version: '1.0.0',
-      description: 'API documentation for managing news articles and blog posts',
+      description: "SEA AWARENESS is an application that provides the latest news information on the readiness of different South East Asian countries, while also spreading awareness into the hardships of the these countries.",
     },
     servers: [
       {

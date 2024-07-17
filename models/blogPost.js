@@ -56,52 +56,64 @@ class BlogPost {
       }
 }
 
-
 static async createBlogPost(newBPData) {
   console.log("Creating new blog post...");
   const pool = await sql.connect(dbConfig);
 
+  let transaction;
   try {
-    const transaction = await pool.transaction();
+      transaction = await pool.transaction();
 
-    // Begin the transaction
-    await transaction.begin();
+      // Begin the transaction
+      await transaction.begin();
 
-    // Define the SQL query with parameters and SCOPE_IDENTITY() to get the newly created BPid
-    const sqlQuery = `
-      INSERT INTO BlogPosts (content, authorID, bpCreated, bpModified)
-      VALUES (@content, @authorID, GETDATE(), GETDATE());
-      SELECT SCOPE_IDENTITY() AS BPid;
-    `;
+      // Validate authorID ("NEW NEW NEW")
+      const validateAuthorQuery = "SELECT COUNT(*) AS count FROM users WHERE userID = @authorID";
+      const validateRequest = new sql.Request(transaction);
+      validateRequest.input("authorID", sql.Int, newBPData.authorID);
+      const validationResult = await validateRequest.query(validateAuthorQuery);
 
-    // Prepare the request with the transaction
-    const request = new sql.Request(transaction);
-    request.input("content", sql.NVarChar(sql.MAX), newBPData.content);
-    request.input("authorID", sql.Int, newBPData.authorID);
+      if (validationResult.recordset[0].count === 0) {
+          throw new Error("Invalid authorID: No matching user found in the users table.");
+      }
 
-    // Execute the query and commit the transaction if successful
-    const result = await request.query(sqlQuery);
-    await transaction.commit();
+      // Define the SQL query with parameters and SCOPE_IDENTITY() to get the newly created BPid
+      const sqlQuery = `
+          INSERT INTO BlogPosts (content, authorID, bpCreated, bpModified)
+          VALUES (@content, @authorID, GETDATE(), GETDATE());
+          SELECT SCOPE_IDENTITY() AS BPid;
+      `;
 
-    console.log("New blog post created:", result.recordset[0]);
+      // Prepare the request with the transaction
+      const request = new sql.Request(transaction);
+      request.input("content", sql.NVarChar(sql.MAX), newBPData.content);
+      request.input("authorID", sql.Int, newBPData.authorID);
 
-    // Retrieve the newly created BP using its ID
-    const createdBP = await this.getBlogPostById(result.recordset[0].BPid);
-    console.log("Retrieved newly created blog post:", createdBP);
+      // Execute the query and commit the transaction if successful
+      const result = await request.query(sqlQuery);
+      await transaction.commit();
 
-    return createdBP;
+      console.log("New blog post created:", result.recordset[0]);
+
+      // Retrieve the newly created BP using its ID
+      const createdBP = await this.getBlogPostById(result.recordset[0].BPid);
+      console.log("Retrieved newly created blog post:", createdBP);
+
+      return createdBP;
+
   } catch (error) {
-    // If any error occurs, rollback the transaction
-    if (transaction) {
-      await transaction.rollback();
-    }
-    console.error("Error creating blog post:", error.message);
-    throw error;
+      // If any error occurs, rollback the transaction
+      if (transaction) {
+          await transaction.rollback();
+      }
+      console.error("Error creating blog post:", error.message);
+      throw error;
   } finally {
-    // Close the connection pool
-    await pool.close();
+      // Close the connection pool
+      await pool.close();
   }
 }
+
 
 
   static async updateBlogPost(BPid, newBPData) {
@@ -137,6 +149,15 @@ static async createBlogPost(newBPData) {
     }
   
     return result.rowsAffected > 0;
+  }
+
+  static async searchBlogPosts(searchTerm) {
+    const connection = await sql.connect(dbConfig);
+    const sqlQuery = `SELECT * FROM blogPosts WHERE content LIKE '%${searchTerm}%'`;
+    const request = connection.request();
+    const result = await request.query(sqlQuery);
+    connection.close();
+    return result.recordset;
   }
 }
 
