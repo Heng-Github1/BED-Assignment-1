@@ -10,10 +10,13 @@ const swaggerDocument = require("./swagger-output.json");
 
 const booksController = require("./controllers/booksController");
 const usersController = require("./controllers/usersController");
+const newsController = require("./controllers/newsController");
+
 const dbConfig = require("./dbConfig"); // Import dbConfig from dbConfig.js
 const auth = require("./middlewares/auth");
 
 // Import middleware
+const validateNews = require("./middlewares/validateNews"); //For validation
 const validateBook = require("./middlewares/validateBook"); 
 const validateUser = require("./middlewares/validateUser");
 
@@ -34,12 +37,20 @@ app.post("/login", validateUser, usersController.loginUser);
 
 // Routes for GET requests
 app.get("/books", auth, booksController.getAllBooks);
+app.get("/newsArticle", newsController.getAllNews);
+app.get("/newsArticle/:newsid", newsController.getNewsById);
 
 // Routes for POST requests
 app.post("/books", auth, validateBook, booksController.createBook);
+app.post("/newsArticle", validateNews, newsController.createNews);
 
 // Routes for PUT requests
 app.put("/books/:bookId/availability", auth, validateBook, booksController.updateBookAvailability);
+app.put("/newsArticle/:newsid", newsController.updateNews);
+app.put("/newsArticle/:newsid", validateNews, newsController.updateNews);
+
+// Routes for DELETE requests
+app.delete("/newsArticle/:newsid", newsController.deleteNews);
 
 // Start the server
 app.listen(port, async () => {
