@@ -1,5 +1,4 @@
 const newsArticle = require("../models/newsArticle");
-// const db2Config = require("./dbConfig").db2
 
 const getAllNews = async (req, res) => {
   try {
