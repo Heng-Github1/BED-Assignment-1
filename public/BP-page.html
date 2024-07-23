@@ -13,6 +13,35 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: url('https://img.pikbest.com/origin/09/28/03/95MpIkbEsTU2e.jpg!sw800') no-repeat center;
+            background-size: cover;
+            min-height: 400px; /* Set a minimum height to ensure content is visible */
+            margin-bottom: 20px; /* Margin at the bottom of the container */
+        }
+
+        .container .btn {
+            margin-right: 10px; /* Adjust margin between buttons */
+        }
+
+        #my-blog-posts-link {
+            position: absolute;
+            top: 0.5px; /* Adjust vertical positioning as needed */
+            right: 10px; /* Adjust horizontal positioning as needed */
+            background-color: rgb(46, 192, 46);
+            transition: background-color 0.3s ease; /* Smooth transition for background color */
+        }
+
+        #my-blog-posts-link:hover {
+            background-color: darkgreen; /* New background color on hover */
+        }
+    </style>
 </head>
 
 <body>
@@ -20,9 +49,8 @@
         <span id="back-link" class="btn btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back</span>
         <h1 class="text-center mb-5">Blog Posts</h1>
         <div class="search-container mb-4">
-            <div class="input-group">
-                <input type="search" id="search-input" class="form-control" placeholder="Search Blog Posts">
-                <button id="search-btn" class="btn btn-primary">Search</button>
+            <div class="search-wrapper">
+                <input type="search" id="search" class="form-control" placeholder="Search Blog Posts">
             </div>
         </div>
         <div class="blog-posts-container">
@@ -30,10 +58,9 @@
                 <!-- Blog posts will be inserted here -->
             </div>
         </div>
-        <span id="my-blog-posts-link" class="btn btn-secondary mt-4" style="margin-bottom: 5vh; background-color: rgb(30, 194, 30);"><i class="fa-solid fa-newspaper"></i> My Blog Posts</span>
+        <span id="my-blog-posts-link" class="btn btn-secondary mt-4"><i class="fa-solid fa-newspaper"></i> My Blog Posts</span>
     </div>
     <script src="BP.js"></script>
 </body>
 
 </html>
-

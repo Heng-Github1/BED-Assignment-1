@@ -3,52 +3,55 @@ document.getElementById("back-link").addEventListener("click", () => {
 });
 
 document.getElementById("create-post-btn").addEventListener("click", () => {
-  document.getElementById("create-post-form-container").style.display = "block";
-});
+    document.getElementById("create-post-form-container").style.display = "block";
+  });
 
 document.getElementById('create-post-form').addEventListener('submit', async function(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  const content = document.getElementById('post-content').value;
-  const authorID = document.getElementById('post-author-id').value;
-
-  const postData = {
+    const title = document.getElementById('post-title').value;
+    const content = document.getElementById('post-content').value;
+    const authorID = parseInt(document.getElementById('post-author-id').value); // Ensure authorID is parsed as an integer
+  
+    const postData = {
+      title,
       content,
       authorID,
       bpCreated: new Date().toISOString(),
       bpModified: new Date().toISOString()
-  };
-
-  try {
+    };
+  
+    try {
       const response = await fetch('/blogPosts', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(postData)
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
       });
-
+  
       if (!response.ok) {
-          throw new Error('Error creating blog post');
+        throw new Error('Error creating blog post');
       }
-
+  
       const data = await response.json();
-
+  
       if (data) {
-          alert("Blog post created successfully!");
-          document.getElementById('create-post-form').reset();
-          // Optionally, you can refresh the page or update the list of blog posts here
-          window.location.reload();
+        alert("Blog post created successfully!");
+        document.getElementById('create-post-form').reset();
+        // Optionally, you can refresh the page or update the list of blog posts here
+        window.location.reload();
       } else {
-          console.error("Blog post data not found in server response.");
-          alert("Failed to create blog post. Please try again.");
+        console.error("Blog post data not found in server response.");
+        alert("Failed to create blog post. Please try again.");
       }
-  } catch (error) {
+    } catch (error) {
       const errorMessage = error.message || "An error occurred while creating the blog post. Please try again later.";
       alert("Error: " + errorMessage);
       console.error('Error:', error);
-  }
-});
+    }
+  });
+  
 
 document.getElementById('update-post-btn').addEventListener('click', async function () {
   const updateContainer = document.querySelector('.update-container');
@@ -76,7 +79,7 @@ async function fetchBlogPostsForUpdate() {
           listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
           const infoContainer = document.createElement('div');
-          infoContainer.textContent = `Post ID: ${post.BPid} | Created on: ${new Date(post.bpCreated).toLocaleString()}`;
+          infoContainer.textContent = `Title: ${post.title} | Post ID: ${post.BPid} | Created on: ${new Date(post.bpCreated).toLocaleString()}`;
 
           const updateButton = document.createElement('button');
           updateButton.className = 'btn btn-success btn-sm';
@@ -103,17 +106,20 @@ function displayUpdateForm(post) {
   const updateForm = document.createElement('form');
   updateForm.className = 'update-form';
   updateForm.innerHTML = `
-      <label for="update-content">Content:</label><br>
-      <textarea id="update-content" name="update-content" rows="4" cols="50">${post.content}</textarea><br>
-      <label for="update-author-id">Author ID:</label><br>
-      <input type="text" id="update-author-id" name="update-author-id" value="${post.authorID}"><br><br>
-      <button type="submit" class="btn btn-primary btn-sm">Submit Update</button>
+        <label for="update-title">Title:</label><br>
+    <textarea id="update-title" name="update-title" rows="4" cols="50">${post.title}</textarea><br>
+    <label for="update-content">Content:</label><br>
+    <textarea id="update-content" name="update-content" rows="4" cols="50">${post.content}</textarea><br>
+    <label for="update-author-id">Author ID:</label><br>
+    <input type="text" id="update-author-id" name="update-author-id" value="${post.authorID}"><br><br>
+    <button type="submit" class="btn btn-primary btn-sm">Submit Update</button>
   `;
 
   // Handle form submission
   updateForm.addEventListener('submit', async function(event) {
       event.preventDefault();
 
+      const newTitle = document.getElementById('update-title').value;
       const newContent = document.getElementById('update-content').value;
       const newAuthorID = document.getElementById('update-author-id').value;
 
@@ -124,6 +130,7 @@ function displayUpdateForm(post) {
                   'Content-Type': 'application/json'
               },
               body: JSON.stringify({
+                title: newTitle,
                   content: newContent,
                   authorID: newAuthorID
               })
@@ -179,7 +186,7 @@ async function fetchBlogPostsForDeletion() {
           listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
           const infoContainer = document.createElement('div');
-          infoContainer.textContent = `Post ID: ${post.BPid} | Created on: ${new Date(post.bpCreated).toLocaleString()}`;
+          infoContainer.textContent = `Title: ${post.title} | Post ID: ${post.BPid} | Created on: ${new Date(post.bpCreated).toLocaleString()}`;
 
           const deleteButton = document.createElement('button');
           deleteButton.className = 'btn btn-danger btn-sm';
@@ -192,7 +199,7 @@ async function fetchBlogPostsForDeletion() {
 
           // Add event listener to delete button
           deleteButton.addEventListener('click', async () => {
-              if (confirm(`Are you sure you want to delete post with ID ${post.BPid}?`)) {
+              if (confirm(`Are you sure you want to delete post "${post.title}" with BPid ${post.BPid}?`)) {
                   try {
                       const response = await fetch(`/blogPosts/${post.BPid}`, {
                           method: 'DELETE',
@@ -216,6 +223,8 @@ async function fetchBlogPostsForDeletion() {
       console.error('Error fetching blog posts:', error);
   }
 }
+
+
 
 
 
