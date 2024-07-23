@@ -1,5 +1,6 @@
+
 module.exports = { 
-  user: "bed",  
+  user: "booksapi_user",  
   password: "123",  
   server: "localhost",  
   database: "bed_db",  

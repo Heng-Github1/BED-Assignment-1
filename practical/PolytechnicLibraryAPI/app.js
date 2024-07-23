@@ -23,6 +23,7 @@ const validateUser = require("./middlewares/validateUser");
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
 
+
 // Middleware to serve static files from the public directory
 const staticMiddleware = express.static("public");
 app.use(staticMiddleware); // Mount the static middleware

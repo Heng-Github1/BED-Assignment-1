@@ -9,25 +9,19 @@
 <body>
     <div class="emptySpace"></div>
     <div class="mainContainer">
+        <a href="index(news).html"><button style="padding: 10px; border: none; border-radius: 10px; background-color: rgb(230, 171, 171); font-size: 20px;">Back</button></a>
         <div class="fillerContainer">
             <div class="selectCountry">
                 <select id="countrySelector" style="width: 100%; height: 100%; font-size: 20px;">
-                    <option value=""">Select Country..</option>
-                    <option value="SG">Singapore</option>
-                    <option value="MY">Malaysia</option>
-                    <option value="TH">Thailand</option>
-                    <option value="ID">Indonesia</option>
-                    <option value="PH">Philippines</option>
-                    <option value="VN">Vietnam</option>
-                    <option value="LA">Laos</option>
-                    <option value="MM">Myanmar</option>
-                    <option value="BN">Brunei</option>
-                    <option value="KH">Camobdia</option>
+                    <option value="">Select Topic..</option>
+                    <option value="politics">Politics</option>
+                    <option value="technology">Technology</option>
+                    <option value="cc">Climate Change</option>
                 </select>
             </div>
 
             <div class="newsIdContainer">
-                <p>#10</p>
+                <input type="number" id="newsIndex" value="10" style="width: 100%; height: 100%; font-size:20px;">
             </div>
         </div>
 
@@ -36,15 +30,13 @@
         </div>
 
         <div class="contentContainer">
-            <div class="contentStart">
-                <input type="text" id="headline" placeholder="Insert Content..." style="width: 100%; height: 100%; vertical-align: top">
-            </div>
+            <textarea id="content" placeholder="Insert Content.." style="width: 100%; height: 100%; vertical-align: top; padding: 10px;"></textarea>
         </div>
 
-        <button>Create News</button>
+        <button onclick="createNews(); redirectToIndex()">Create News</button>
 
     </div>
 
-    <script src="scripts/news.js"></script>
+    <script src="createNews.js"></script>
 </body>
 </html>
