@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                   <div class="card-body">
                       <h5 class="card-title">${post.title}</h5>
                       <p class="card-text">${post.content}</p>
-                      <p class="text-muted">Author: ${post.authorID}</p>
+                      <p class="text-muted">AuthorID: ${post.authorID}</p>
                       <p class="text-muted">Published: ${new Date(post.bpCreated).toLocaleDateString()}</p>
                   </div>
               </div>
@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       blogPosts.forEach(post => {
           const content = post.querySelector('.card-text').textContent.toLowerCase();
-          const isVisible = content.includes(searchTerm);
+          const title = post.querySelector('.card-title').textContent.toLowerCase();
+          const isVisible = content.includes(searchTerm) || title.includes(searchTerm);
           post.style.display = isVisible ? 'block' : 'none';
       });
   });

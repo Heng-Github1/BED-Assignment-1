@@ -9,7 +9,7 @@ const validateNews = require("./middlewares/validateNews");
 const validateBlogPost = require("./middlewares/validateBlogPost");
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+const swaggerDocument = require("./swagger/swagger-output"); // Import generated spec
 
 const app = express();
 const port = 3000; 
@@ -36,7 +36,7 @@ app.delete("/blogPosts/:id", bpController.deleteBlogPost);
 
 // User routes
 app.get("/users", userController.getAllUsers);
-app.post("/users",userController.loginUser)
+app.post("/users",userController.createUser)
 
 //Swagger route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 

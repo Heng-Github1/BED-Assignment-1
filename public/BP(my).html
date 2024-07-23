@@ -15,10 +15,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="style.css">
     <style>
-        body {
-            background-color: #f8f9fa; /* Light gray background */
-        }
-
         .btn {
             margin-right: 10px; /* Adjust margin between buttons */
         }
@@ -32,6 +28,7 @@
         h4 {
             text-align: center;
             margin-top: 30px; /* Add space between heading and blog posts */
+            font-size: 3em;
         }
 
         .blog-posts-container {
@@ -88,10 +85,12 @@
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
-        <div class="update-container mt-4 d-none">
-            <h5>Update Blog Posts</h5>
-            <div class="list-group" id="update-posts-list"></div>
-        </div>
+        <!-- Ensure the structure aligns with the JavaScript updates -->
+<div class="update-container mt-4 d-none">
+    <h5>Update Blog Posts</h5>
+    <div class="list-group" id="update-posts-list"></div>
+</div>
+
         <div class="delete-container mt-4 d-none">
             <h5>Delete Blog Posts</h5>
             <div class="list-group" id="delete-posts-list"></div>

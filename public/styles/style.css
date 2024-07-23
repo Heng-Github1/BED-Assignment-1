@@ -165,3 +165,24 @@ padding: 10px;
 font-size: 65px;
 margin-top:4vh;
 }
+
+/* Add this CSS to your existing styles or style.css */
+.update-form {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.update-form textarea,
+.update-form input[type="text"] {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
