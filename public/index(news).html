@@ -1,98 +1,55 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
- </head>
- <body>
-   <div class="emptySpace"></div>
-    <h1>NEWS ARTICLE</h1>
+    <title>News App</title>
+    <link rel="stylesheet" href="styles/style(news).css">
+</head>
+<body>
 
-    <div class="container">
-
-        <div class="top">
-         <h2> Top Stories </h2>
-         <div class="top-image">
-            <img src="https://static.mothership.sg/1/2023/01/ccs-SP23-2.jpg" alt="image">
-         </div>
-
-         <p>Changing definition of success in education system a way for S'pore to stay relevant: Chan Chun Sing</p>
+    <nav>
+        <div class="main-nav container flex">
+            <a href="#" onclick="reload()" class="homepage">
+                <p>News Article</p>
+            </a>
+            <div class="nav-links">
+                <ul class="flex">
+                    <li class="hover-link nav-item" id="cc" onclick="onNavItemClick('Southeast Asia Climate Change')">Climate Change</li>
+                    <li class="hover-link nav-item" id="technology" onclick="onNavItemClick('Southeast Asia Technology')">Technology</li>
+                    <li class="hover-link nav-item" id="politics" onclick="onNavItemClick('southeast asia politics')">Politics</li>
+                </ul>
+            </div>
+            <div class="emptyspace"></div>
+           
+            <div class="search-bar flex">
+                <input id="search-text" type="text" class="news-input" placeholder="Politics">
+                <button id="search-button" class="search-button">Search</button>
+            </div>
         </div>
-        
-        <h2>Events</h2>
-        <div class="events">
-         
-         <div class="minievents">
-            <img src="https://static.mothership.sg/1/2023/02/chan-chun-sing-parly.jpg">
-            Educators exploring how ChatGPT or Artificial Intelligence can be used in education setting: Chan Chun Sing
-         </div>
+    </nav>
+    
 
-         <div class="minievents">
-            <img src="https://static.mothership.sg/1/2023/02/chan-chun-sing-parly.jpg">
-            Educators exploring how ChatGPT or Artificial Intelligence can be used in education setting: Chan Chun Sing
-         </div>
-       
-
+    <main>
+        <div class="cards-container container flex" id="cards-container">
+            
         </div>
-    </div>
+    </main>
 
-    <div class="asia">
-      <h2>ASIA</h2>
-
-      <div class="countries">
-         <button>Global</button>
-      </div>
-
-      <div class="countries">
-         <button>Singapore</button>
-      </div>
-
-      <div class="countries">
-         <button>Malaysia</button>
-      </div>
-
-      <div class="countries">
-         <button>Thailand</button>
-      </div>
-
-      <div class="countries">
-         <select id="selectCountry" style="width: 100%; height: 100%; font-size: 15px; background-color: rgb(196, 189, 189);
-    border-radius: 20px; border: 2px solid black; text-align: center;">
-            <option value="">...</option>
-            <option value="Laos">Laos</option>
-            <option value="ID">Indonesia</option>
-            <option value="PH"></option>
-         </select>
-      </div>
-
-      <div class="asia-container">
-         <div class="content">
-            <div class="content-image">
-               <img src="https://apicms.thestar.com.my/uploads/images/2024/06/16/thumbs/700/2750927.webp">
+    <template id="template-news-card">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://via.placeholder.com/400x200" alt="news-image" id="news-img">
             </div>
-            <h2>Orang Asli school teacher rises to the occasion</h2>
-         </div>
+            <div class="card-content">
+                <h3 id="news-title">This is the Title</h3>
+                <h6 class="news-source" id="news-source">CNA 26/01/2019</h6>
+                <p class="news-desc" id="news-desc">ABCDEFG</p>
+            </div>
+        </div>
+    </template>
 
-         <div class="content">
-            <div class="content-image">
-               <img src="https://apicms.thestar.com.my/uploads/images/2024/06/16/thumbs/700/2750927.webp">
-            </div>
-            <h2>Orang Asli school teacher rises to the occasion</h2>
-            </div>
-            
-            <div class="content">
-               <div class="content-image">
-                  <img src="https://apicms.thestar.com.my/uploads/images/2024/06/16/thumbs/700/2750927.webp">
-               </div>
-               <h2>Orang Asli school teacher rises to the occasion</h2>
-               </div>
-            </div>
-            
-
-         </div>
-      </div>
-    </div>
- </body>
- </html>
+    <script src="scripts/news.js"></script>
+</body>
+</html> 

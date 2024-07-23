@@ -11,7 +11,8 @@ const validateBlogPost = require("./middlewares/validateBlogPost");
 const auth = require('./middlewares/auth'); // JWT middleware
 const dbConfig = require("./dbConfig");
 
-const swaggerUi = require("swagger-ui-express");
+// const swaggerUi = require("swagger-ui-express");
+const { swaggerUi, swaggerDocs } = require('./swagger'); // Swagger setup
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -45,6 +46,7 @@ app.post("/register", userController.registerUser); // Register route
 app.post("/login", userController.loginUser); // Login route
 
 // Protect routes with JWT middleware
+app.get("/users/profile", auth, userController.getUserProfile); // User profile route
 app.get("/users", auth, userController.getAllUsers);
 app.get("/users/:userID", auth, userController.getUserById);
 app.post("/users", auth, userController.createUser);
