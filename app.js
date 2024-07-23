@@ -33,16 +33,13 @@ app.get("/blogPosts/:id", bpController.getBlogPostById);
 app.post("/blogPosts", validateBlogPost, bpController.createBlogPost); 
 app.put("/blogPosts/:id", validateBlogPost, bpController.updateBlogPost); 
 app.delete("/blogPosts/:id", bpController.deleteBlogPost);
-app.get('/blogPosts', bpController.searchBlogPosts); 
 
 // User routes
 app.get("/users", userController.getAllUsers);
-app.get("/users/:userID", userController.getUserById);
-app.post("/users", userController.createUser);
-app.delete("/users/:userID", userController.deleteUser);
-app.patch("/users/:userID", userController.updateUser);
+app.post("/users",userController.loginUser)
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument)); //Swagger route
+//Swagger route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument)); 
 
 app.listen(port, async () => {
   try {

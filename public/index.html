@@ -36,18 +36,38 @@
             <a href="BP-page.html" class="text-dark">Blog Posts</a>
           </li>
           <li class="nav-item">
-            <a href="NA.html" class="text-dark">News Articles</a>
+            <a href="index(news).html" class="text-dark">News Articles</a>
           </li>
           <li class="nav-item">
-            <a href="account.html" class="text-dark">Account</a>
+            <a href="index(users).html" class="text-dark">Account</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <div id="Home-container" class="Home-container">
-    <h5>Homepage</h5>
-  </div>
+
+    <div id="image-container">
+      <img src="https://media.cntraveler.com/photos/61d4bbfa2fa588652312ba15/16:9/w_2560%2Cc_limit/Chiang-Mai-GettyImages-525620853.jpg" alt="Image 1" class="image visible">
+      <img src="https://www.paradisevietnam.com/public/backend/uploads/images/what-about-ha-long-bay-1.jpg" alt="Image 2" class="image">
+      <img src="https://www.emeraldcruises.com/-/media/project/scenic/emerald-cruises/blogs/t/the-12-best-cities-to-visit-in-southeast-asia/ecar_singapore_sunrise.jpg?h=1500&iar=0&w=3000&rev=a8f689aa02074732bd65a1b00157885e&hash=2C4906A5CEE57DAE2B87CB70A0189F97" alt="Image 3" class="image">
+      <img src="https://media.timeout.com/images/105449726/image.jpg" alt="Image 4" class="image">
+      <img src="https://media.vietravel.com/images/NewsPicture/bagan.jpg" alt="Image 5" class="image">
+      <img src="https://www.indietraveller.co/wp-content/uploads/2018/07/el_nido.jpg" alt="Image 6" class="image">
+      <img src="https://www.indonesia.travel/content/dam/indtravelrevamp/home-revamp/JF-labuanbajo.jpg" alt="Image 7" class="image">
+      <div id="image-text">spreading awareness through people.</h5>
+    </div>
 
   <script src="index.js"></script>
+  <script>
+    const images = document.querySelectorAll('.image');
+    let currentIndex = 0;
+  
+    function showNextImage() {
+      images[currentIndex].classList.remove('visible');
+      currentIndex = (currentIndex + 1) % images.length;
+      images[currentIndex].classList.add('visible');
+    }
+    
+    setInterval(showNextImage, 3000);
+  </script>
 </body>
