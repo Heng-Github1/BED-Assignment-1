@@ -53,8 +53,10 @@ const registerUser = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User(null, username, email, hashedPassword, role, new Date(), new Date());
-    await User.createUser(newUser);
-    res.status(201).json({ message: 'User created successfully' });
+    const createdUser = await User.createUser(newUser);
+
+    const token = jwt.sign({ id: createdUser.userID, role: createdUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.status(201).json({ message: 'User created successfully', token }); // Include token in the response
   } catch (err) {
     console.error('Error during user registration:', err);
     res.status(500).json({ message: 'Internal server error' });
@@ -118,17 +120,19 @@ const loginUser = async (req, res) => {
  *       200:
  *         description: User profile
  *         content:
- *           application/json:
+ *           application/json
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       500:
  *         description: Internal server error
  */
 const getUserProfile = async (req, res) => {
-  const userId = req.user.userID;  // Assuming req.user is set by auth middleware
+  const userId = req.user.id;  // Assuming req.user is set by auth middleware
+  console.log("User ID from token:", userId); // Debug log
   try {
     const user = await User.getUserById(userId);
     if (!user) {
+      console.log("User not found in database"); // Debug log
       return res.status(404).json({ message: 'User not found' });
     }
     res.status(200).json(user);
@@ -148,7 +152,7 @@ const getUserProfile = async (req, res) => {
  *       200:
  *         description: List of users
  *         content:
- *           application/json:
+ *           application/json
  *             schema:
  *               type: array
  *               items:
@@ -267,26 +271,24 @@ const createUser = async (req, res) => {
  */
 const updateUser = async (req, res) => {
   const { userID } = req.params;
-  const updatedData = req.body;
+  const newUser = req.body;
   try {
     const existingUser = await User.getUserById(userID);
     if (!existingUser) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const updatedUser = {
-      ...existingUser,
-      ...updatedData,
+    const updatedData = {
+      username: newUser.username || existingUser.username,
+      email: newUser.email || existingUser.email,
+      password: newUser.password || existingUser.password,
+      role: newUser.role || existingUser.role,
+      userCreated: existingUser.userCreated,
       userModified: new Date()
     };
 
-    // Ensure the userCreated date is preserved if not updated
-    if (!updatedUser.userCreated) {
-      updatedUser.userCreated = existingUser.userCreated;
-    }
-
-    const result = await User.updateUser(userID, updatedUser);
-    res.status(200).json(result);
+    const updatedUser = await User.updateUser(userID, updatedData);
+    res.status(200).json(updatedUser);
   } catch (err) {
     console.error('Error updating user:', err);
     res.status(500).json({ message: 'Internal server error' });
