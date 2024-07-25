@@ -17,7 +17,7 @@ INSERT INTO blogPosts (title, content, authorID, bpCreated, bpModified)
 VALUES ('title 5', 'This blog post examines innovative solutions to navigate the complex challenges facing education in Southeast Asia amidst the intersecting forces of politics, climate change, and technology. From community-driven initiatives promoting inclusive education to cross-border collaborations leveraging digital tools, we showcase diverse approaches to address educational disparities and foster resilience in the face of adversity. By fostering a culture of innovation and collaboration, we strive to build a brighter future for education in Southeast Asia.', 5, '2024-06-09 10:00:00', '2024-06-09 11:00:00');
 
 CREATE TABLE users ( 
-userID INT PRIMARY KEY, 
+userID INT IDENTITY (1,1) PRIMARY KEY, 
 username NVARCHAR(255), 
 email NVARCHAR(255), 
 password NVARCHAR(255), 
@@ -26,13 +26,13 @@ userCreated DATETIME,
 userModified DATETIME 
 ); 
  
-INSERT INTO users (userID, username, email, password, role, userCreated, userModified) 
+INSERT INTO users (username, email, password, role, userCreated, userModified) 
 VALUES  
-(1, 'Alexander', 'Alexander51@gmail.com', 'Alex9401', 'Guest', '2024-06-13 5:00:00', '2024-06-13 6:00:00'), 
-(2, 'Emily', 'Emily23@gmail.com', 'Em2020', 'Guest', '2024-06-12 10:00:00', '2024-06-12 11:00:00'), 
-(3, 'Garcy', 'Garcy49@email.com', 'Password123', 'Admin', '2024-06-11 12:00:00', '2024-06-11 13:00:00'), 
-(4, 'Sophia', 'Sophia98@hotmail.com', 'Sophia95', 'Guest', '2024-06-10 14:00:00', '2024-06-10 15:00:00'), 
-(5, 'Jackson', 'Jackson71@outlook.com', 'Jack1985', 'Guest', '2024-06-09 16:00:00', '2024-06-09 17:00:00');
+('Alexander', 'Alexander51@gmail.com', 'Alex9401', 'Guest', '2024-06-13 5:00:00', '2024-06-13 6:00:00'), 
+('Emily', 'Emily23@gmail.com', 'Em2020', 'Guest', '2024-06-12 10:00:00', '2024-06-12 11:00:00'), 
+('Garcy', 'Garcy49@email.com', 'Password123', 'Admin', '2024-06-11 12:00:00', '2024-06-11 13:00:00'), 
+('Sophia', 'Sophia98@hotmail.com', 'Sophia95', 'Guest', '2024-06-10 14:00:00', '2024-06-10 15:00:00'), 
+('Jackson', 'Jackson71@outlook.com', 'Jack1985', 'Guest', '2024-06-09 16:00:00', '2024-06-09 17:00:00');
 
 
 CREATE TABLE News ( newsid INT PRIMARY KEY IDENTITY (1,1),
