@@ -28,11 +28,11 @@ userModified DATETIME
  
 INSERT INTO users (username, email, password, role, userCreated, userModified) 
 VALUES  
-('Alexander', 'Alexander51@gmail.com', '$2a$10$mJNSoelkjep/O5qYcW2SMOGo0STtblfgo/Tp/p/dMddTD/aDRccCO', 'Guest', '2024-06-13 5:00:00', '2024-06-13 6:00:00'), 
-('Emily', 'Emily23@gmail.com', '$2a$10$RonHzKnk0Sh6/1ijw8f28ObYFUKRqFXuuOOtPQKo7MPfn06ZCx5ty', 'Guest', '2024-06-12 10:00:00', '2024-06-12 11:00:00'), 
-('Garcy', 'Garcy49@email.com', '$2a$10$VYRyBp3ZdPL/hwq.ryPVzuwe1uAPDg4ISnPDd15spKji21r4n5Ss6', 'Admin', '2024-06-11 12:00:00', '2024-06-11 13:00:00'), 
-('Sophia', 'Sophia98@hotmail.com', '$2a$10$8Y.AuYkuxHI//T78/WKV0uSS709.Go1QqZmuMOKIqXrjQKiUG2esm', 'Guest', '2024-06-10 14:00:00', '2024-06-10 15:00:00'), 
-('Jackson', 'Jackson71@outlook.com', '$2a$10$P9x4LZ.uxhvV/LUSWwIeyOtz0ayWri9G47W191mNQnSuZCAda6sMm', 'Guest', '2024-06-09 16:00:00', '2024-06-09 17:00:00');
+('Alexander', 'Alexander51@gmail.com', '$2a$10$5LSBSEaUJhHDm5VqGrTmAO5sYj.879idJSU8ioOsxhUqh3xAZm0A.', 'Guest', '2024-06-13 5:00:00', '2024-06-13 6:00:00'), 
+('Emily', 'Emily23@gmail.com', '$2a$10$nDDPEQsNAXB2a/orVjNAZ.lMwlbs9GAJX6n8UoMcigh7klBaagRY.', 'Guest', '2024-06-12 10:00:00', '2024-06-12 11:00:00'), 
+('Garcy', 'Garcy49@email.com', '$2a$10$OkxUGbkjG29dqrDZupSOcOVR3DLS6p7.3EdpTNSHayUk4G622.BTy', 'Admin', '2024-06-11 12:00:00', '2024-06-11 13:00:00'), 
+('Sophia', 'Sophia98@hotmail.com', '$2a$10$v4NKeOzK0UAdVGUfVdCkjuzFQOQ/A8U5ltinezNAi8qgpp/syfidW', 'Guest', '2024-06-10 14:00:00', '2024-06-10 15:00:00'), 
+('Jackson', 'Jackson71@outlook.com', '$2a$10$PujOA1nBpfqlB47e6C5/IOJo7tIZquHDKwSzQlyjjzufmfzzGqN1e', 'Guest', '2024-06-09 16:00:00', '2024-06-09 17:00:00');
 
 
 CREATE TABLE News ( newsid INT PRIMARY KEY IDENTITY (1,1),
