@@ -17,7 +17,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             const data = await response.json();
             localStorage.setItem('token', data.token); // Store the JWT token
             alert('Login successful');
-            window.location.href = 'index.html'; // Redirect to account page after successful login
+            window.location.href = 'index(home).html'; // Redirect to account page after successful login
         } else {
             const errorData = await response.json();
             alert(errorData.message);
