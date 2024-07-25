@@ -8,8 +8,49 @@ document.getElementById("create-post-btn").addEventListener("click", () => {
 
 document.getElementById('create-post-form').addEventListener('submit', async function(event) {
     event.preventDefault();
-    // Submit functionality remains the same
-});
+
+    const title = document.getElementById('post-title').value;
+    const content = document.getElementById('post-content').value;
+    const authorID = document.getElementById('post-author-id').value;
+  
+    const postData = {
+        title,
+        content,
+        authorID,
+        bpCreated: new Date().toISOString(),
+        bpModified: new Date().toISOString()
+    };
+  
+    try {
+        const response = await fetch('/blogPosts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+        });
+  
+        if (!response.ok) {
+            throw new Error('Error creating blog post');
+        }
+  
+        const data = await response.json();
+  
+        if (data) {
+            alert("Blog post created successfully!");
+            document.getElementById('create-post-form').reset();
+            // Optionally, you can refresh the page or update the list of blog posts here
+            window.location.reload();
+        } else {
+            console.error("Blog post data not found in server response.");
+            alert("Failed to create blog post. Please try again.");
+        }
+    } catch (error) {
+        const errorMessage = error.message || "An error occurred while creating the blog post. Please try again later.";
+        alert("Error: " + errorMessage);
+        console.error('Error:', error);
+    }
+  });
 
 document.getElementById('update-post-btn').addEventListener('click', async function () {
     showUpdatePostsSection();

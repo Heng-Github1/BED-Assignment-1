@@ -67,24 +67,22 @@
         </div>
 
         <!-- Hidden form for creating a new blog post -->
-        <div id="create-post-form-container" style="display:none;" class="container mt-4">
-            <h5>Create New Blog Post</h5>
-            <form id="create-post-form">
-                <div class="mb-3">
-                    <label for="post-title" class="form-label">Title</label>
-                    <textarea class="form-control" id="post-title" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="post-content" class="form-label">Content</label>
-                    <textarea class="form-control" id="post-content" rows="4" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="post-author-id" class="form-label">Author ID</label>
-                    <input type="text" class="form-control" id="post-author-id" required>
-                </div>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
+        <form id="create-post-form">
+            <div class="mb-3">
+                <label for="post-title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="post-title" required>
+            </div>
+            <div class="mb-3">
+                <label for="post-content" class="form-label">Content</label>
+                <textarea class="form-control" id="post-content" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="post-author-id" class="form-label">Author ID</label>
+                <input type="text" class="form-control" id="post-author-id" required>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+        
         <!-- Ensure the structure aligns with the JavaScript updates -->
 <div class="update-container mt-4 d-none">
     <h5>Update Blog Posts</h5>
