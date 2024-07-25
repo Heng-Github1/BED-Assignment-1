@@ -51,19 +51,14 @@ const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: 'Username already exists' });
     }
-
-    // Validate role
-    const validRoles = ['Guest', 'Admin'];
-    if (!validRoles.includes(role)) {
-      return res.status(400).json({ message: 'Invalid role. Allowed roles are Guest or Admin.' });
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User(null, username, email, hashedPassword, role, new Date(), new Date());
-    await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
+    const createdUser = await User.createUser(newUser);
+
+    const token = jwt.sign({ id: createdUser.userID, role: createdUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.status(201).json({ message: 'User created successfully', token }); // Include token in the response
   } catch (err) {
-    console.error("Error during user registration:", err);
+    console.error('Error during user registration:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -77,7 +72,7 @@ const registerUser = async (req, res) => {
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         application/json
  *           schema:
  *             type: object
  *             required:
@@ -110,7 +105,39 @@ const loginUser = async (req, res) => {
     const token = jwt.sign({ id: user.userID, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (err) {
-    console.error("Error during user login:", err);
+    console.error('Error during login:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+/**
+ * @swagger
+ * /users/profile:
+ *   get:
+ *     summary: Get user profile
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: User profile
+ *         content:
+ *           application/json
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Internal server error
+ */
+const getUserProfile = async (req, res) => {
+  const userId = req.user.id;  // Assuming req.user is set by auth middleware
+  console.log("User ID from token:", userId); // Debug log
+  try {
+    const user = await User.getUserById(userId);
+    if (!user) {
+      console.log("User not found in database"); // Debug log
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.error('Error fetching user profile:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -125,7 +152,7 @@ const loginUser = async (req, res) => {
  *       200:
  *         description: List of users
  *         content:
- *           application/json:
+ *           application/json
  *             schema:
  *               type: array
  *               items:
@@ -138,7 +165,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.getAllUsers();
     res.status(200).json(users);
   } catch (err) {
-    console.error("Error retrieving all users:", err);
+    console.error('Error fetching users:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -160,7 +187,7 @@ const getAllUsers = async (req, res) => {
  *       200:
  *         description: User data
  *         content:
- *           application/json:
+ *           application/json
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       404:
@@ -177,7 +204,7 @@ const getUserById = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (err) {
-    console.error("Error retrieving user by ID:", err);
+    console.error('Error fetching user:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -191,7 +218,7 @@ const getUserById = async (req, res) => {
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         application/json
  *           schema:
  *             $ref: '#/components/schemas/User'
  *     responses:
@@ -208,7 +235,7 @@ const createUser = async (req, res) => {
     const createdUser = await User.createUser(newUser);
     res.status(201).json(createdUser);
   } catch (err) {
-    console.error("Error creating user:", err);
+    console.error('Error creating user:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -229,7 +256,7 @@ const createUser = async (req, res) => {
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         application/json
  *           schema:
  *             $ref: '#/components/schemas/User'
  *     responses:
@@ -246,13 +273,24 @@ const updateUser = async (req, res) => {
   const { userID } = req.params;
   const newUser = req.body;
   try {
-    const updatedUser = await User.updateUser(userID, newUser);
-    if (!updatedUser) {
+    const existingUser = await User.getUserById(userID);
+    if (!existingUser) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    const updatedData = {
+      username: newUser.username || existingUser.username,
+      email: newUser.email || existingUser.email,
+      password: newUser.password || existingUser.password,
+      role: newUser.role || existingUser.role,
+      userCreated: existingUser.userCreated,
+      userModified: new Date()
+    };
+
+    const updatedUser = await User.updateUser(userID, updatedData);
     res.status(200).json(updatedUser);
   } catch (err) {
-    console.error("Error updating user:", err);
+    console.error('Error updating user:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -287,7 +325,7 @@ const deleteUser = async (req, res) => {
     }
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (err) {
-    console.error("Error deleting user:", err);
+    console.error('Error deleting user:', err);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -295,6 +333,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  getUserProfile,
   getAllUsers,
   getUserById,
   createUser,

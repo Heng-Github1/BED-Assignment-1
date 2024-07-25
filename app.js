@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
 // Swagger setup
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
 
 // News routes
 app.get("/newsArticle", newsController.getAllNews);
@@ -45,6 +46,7 @@ app.post("/register", userController.registerUser); // Register route
 app.post("/login", userController.loginUser); // Login route
 
 // Protect routes with JWT middleware
+app.get("/users/profile", auth, userController.getUserProfile); // User profile route
 app.get("/users", auth, userController.getAllUsers);
 app.get("/users/:userID", auth, userController.getUserById);
 app.post("/users", auth, userController.createUser);
