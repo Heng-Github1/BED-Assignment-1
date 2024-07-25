@@ -10,9 +10,9 @@ const validateNews = require("./middlewares/validateNews");
 const validateBlogPost = require("./middlewares/validateBlogPost");
 const auth = require('./middlewares/auth'); // JWT middleware
 const dbConfig = require("./dbConfig");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger/swagger-output.json"); // Import generated spec
 
-// const swaggerUi = require("swagger-ui-express");
-const { swaggerUi, swaggerDocs } = require('./swagger'); // Swagger setup
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -24,8 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
 // Swagger setup
-
-const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // News routes
 app.get("/newsArticle", newsController.getAllNews);
