@@ -28,11 +28,11 @@ userModified DATETIME
  
 INSERT INTO users (username, email, password, role, userCreated, userModified) 
 VALUES  
-('Alexander', 'Alexander51@gmail.com', 'Alex9401', 'Guest', '2024-06-13 5:00:00', '2024-06-13 6:00:00'), 
-('Emily', 'Emily23@gmail.com', 'Em2020', 'Guest', '2024-06-12 10:00:00', '2024-06-12 11:00:00'), 
-('Garcy', 'Garcy49@email.com', 'Password123', 'Admin', '2024-06-11 12:00:00', '2024-06-11 13:00:00'), 
-('Sophia', 'Sophia98@hotmail.com', 'Sophia95', 'Guest', '2024-06-10 14:00:00', '2024-06-10 15:00:00'), 
-('Jackson', 'Jackson71@outlook.com', 'Jack1985', 'Guest', '2024-06-09 16:00:00', '2024-06-09 17:00:00');
+('Alexander', 'Alexander51@gmail.com', '$2a$10$mJNSoelkjep/O5qYcW2SMOGo0STtblfgo/Tp/p/dMddTD/aDRccCO', 'Guest', '2024-06-13 5:00:00', '2024-06-13 6:00:00'), 
+('Emily', 'Emily23@gmail.com', '$2a$10$RonHzKnk0Sh6/1ijw8f28ObYFUKRqFXuuOOtPQKo7MPfn06ZCx5ty', 'Guest', '2024-06-12 10:00:00', '2024-06-12 11:00:00'), 
+('Garcy', 'Garcy49@email.com', '$2a$10$VYRyBp3ZdPL/hwq.ryPVzuwe1uAPDg4ISnPDd15spKji21r4n5Ss6', 'Admin', '2024-06-11 12:00:00', '2024-06-11 13:00:00'), 
+('Sophia', 'Sophia98@hotmail.com', '$2a$10$8Y.AuYkuxHI//T78/WKV0uSS709.Go1QqZmuMOKIqXrjQKiUG2esm', 'Guest', '2024-06-10 14:00:00', '2024-06-10 15:00:00'), 
+('Jackson', 'Jackson71@outlook.com', '$2a$10$P9x4LZ.uxhvV/LUSWwIeyOtz0ayWri9G47W191mNQnSuZCAda6sMm', 'Guest', '2024-06-09 16:00:00', '2024-06-09 17:00:00');
 
 
 CREATE TABLE News ( newsid INT PRIMARY KEY IDENTITY (1,1),
