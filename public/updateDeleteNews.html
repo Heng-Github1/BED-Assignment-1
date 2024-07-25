@@ -3,32 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>News Management</title>
+    <link rel="stylesheet" type="text/css" href="styles/style(news).css">
 </head>
 <body>
     <div class="emptySpace"></div>
-    <h1>News Article</h1>
     <div class="mainContainer">
         
-        <div class="insertIdContainer">
-            <input type="text" id="headline" placeholder="Insert news id.." style="width: 100%; height: 100%; font-size: 20px; padding: 10px; font-weight: bold">
-        </div>
+        <a href="index(news).html"><button style="padding: 10px; border: none; border-radius: 10px; background-color: rgb(230, 171, 171); font-size: 20px;">Back</button></a>
+        
+        <!-- Message element for displaying success/error messages -->
+        <div id="message" style="display: none; margin: 10px 0; padding: 10px; border-radius: 5px;"></div>
 
-        <div class="headlineContainer">
-            <input type="text" id="headline" placeholder="Edit Headline.." style="width: 100%; height: 100%; font-size: 35px; padding: 10px; font-weight: bold">
-        </div>
-
-        <div class="contentContainer">
-            <div class="contentStart">
-                <input type="text" id="headline" placeholder="Edit Content..." style="width: 100%; height: 100%; vertical-align: top">
+        <!-- Form for deleting news articles -->
+        <form id="delete-news-form">
+            <div class="insertIdContainer">
+                <input type="text" id="delete-news-index" placeholder="Insert news id to delete.." style="width: 100%; height: 100%; font-size: 20px; padding: 10px; font-weight: bold">
             </div>
-        </div>
+            <div class="deleteBtn">
+                <button type="submit">Delete</button>
+            </div>
+        </form>
 
-        <div class="fillerContainer2">
-            <div class="updateBtn"><button>Update</button></div>
-            <div class="deleteBtn"><button>Delete</button></div>
-        </div>  
+        <!-- Form for updating news articles -->
+        <form id="update-news-form">
+            <div class="insertIdContainer">
+                <input type="number" id="update-news-id" placeholder="Insert news id to update.." style="width: 100%; height: 100%; font-size: 20px; padding: 10px; font-weight: bold">
+            </div>
+
+            <div class="headlineContainer">
+                <input type="text" id="update-news-headline" placeholder="Edit Headline.." style="width: 100%; height: 100%; font-size: 35px; padding: 10px; font-weight: bold">
+            </div>
+
+            <div class="contentContainer">
+                <div class="contentStart">
+                    <textarea id="update-news-content" placeholder="Edit Content..." style="width: 100%; height: 100%; vertical-align: top"></textarea>
+                </div>
+            </div>
+
+            <div class="countryContainer">
+                <input type="text" id="update-news-country" placeholder="Edit Country.." style="width: 100%; height: 100%; font-size: 20px; padding: 10px;">
+            </div>
+
+            <div class="updateBtn">
+                <button type="submit">Update</button>
+            </div>
+        </form>
     </div>
+
+    <!-- News cards container -->
+    <div id="cards-container"></div>
+
+    <!-- News card template -->
+    <template id="template-news-card">
+        <div class="news-card" data-news-id="">
+            <h2 id="news-title"></h2>
+            <p id="news-desc"></p>
+            <p id="news-source"></p>
+            <p id="news-index"></p>
+            <img id="news-img" src="" alt="News image">
+        </div>
+    </template>
+
+    <script src="updateDeleteNews.js"></script>
 </body>
-</html
+</html>
