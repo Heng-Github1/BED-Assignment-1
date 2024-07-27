@@ -1,27 +1,22 @@
 async function createNews() {
-    // Get the selected topic
     const topicSelect = document.getElementById('countrySelector');
     const selectedTopic = topicSelect.value;
   
-    // Get the headline
     const headlineInput = document.getElementById('headline');
     const headline = headlineInput.value;
   
-    // Get the content
     const contentInput = document.getElementById('content');
     const content = contentInput.value;
         
-    // Validate inputs
     if (!selectedTopic || !headline || !content) {
         alert('Please fill in all fields');
         return;
     }
   
-    // Prepare the news article data
     const newArticleData = {
         headline: headline,
         content: content,
-        country: selectedTopic // Using 'country' as the field name as per your database schema
+        country: selectedTopic 
     };
   
     try { 
@@ -53,14 +48,14 @@ async function createNews() {
       alert('Failed to create news article. Please try again.');
   }}
   
-  // Function to redirect to index page
+  // Redirect to index page
   function redirectToIndex() {
-    window.location.href = 'index(news).html';
+    window.location.href = 'newsHomePage.html';
   }
   
-  // Attach the createNews function to the button click event
+  // Attach the createNews function
   document.querySelector('button[onclick="createNews(); redirectToIndex()"]').onclick = async function(e) {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
     await createNews();
     redirectToIndex();
   };

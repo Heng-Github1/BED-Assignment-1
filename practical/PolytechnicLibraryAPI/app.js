@@ -9,6 +9,7 @@ const auth = require("./middlewares/auth");
 //import middleware
 const validateBook = require("./middlewares/validateBook"); 
 const validateUser = require("./middlewares/validateUser"); 
+const validateUser = require("./middlewares/validateNews"); 
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port

@@ -1,5 +1,4 @@
-// updateDeleteNews.js
-
+// Delete News -----------------------------------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     const deleteForm = document.getElementById('delete-news-form');
     deleteForm.addEventListener('submit', handleDeleteSubmit);
@@ -39,111 +38,117 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  async function handleUpdateSubmit(event) {
-    event.preventDefault();
-    const newsId = document.getElementById('update-news-id').value;
-    const headline = document.getElementById('update-news-headline').value;
-    const content = document.getElementById('update-news-content').value;
-    const country = document.getElementById('update-news-country').value;
-  
-    const updatedNewsData = {
-      headline,
-      content,
-      country
-    };
-  
+// Update News -----------------------------------------------------------------------------------------------------
+async function handleUpdateSubmit(event) {
+  event.preventDefault();
+  const newsId = document.getElementById('update-news-id').value;
+  const headline = document.getElementById('update-news-headline').value;
+  const content = document.getElementById('update-news-content').value;
+  const country = document.getElementById('update-news-country').value;
+
+  const updatedNewsData = {
+    headline,
+    content,
+    country
+  };
+
+  try {
+    console.log('Sending update request:', newsId, updatedNewsData);
+    const response = await fetch(`/newsArticle/${newsId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedNewsData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseText = await response.text();
+    console.log('Update response:', response.status, responseText);
+
+    let updatedNews;
     try {
-        console.log('Sending update request:', newsId, updatedNewsData);
-        const response = await fetch(`/newsArticle/${newsId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedNewsData),
-        });
-        console.log('Update response:', response.status, await response.text());
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const updatedNews = await response.json();
-  
-      // Update the UI with the new data
-      updateNewsCard(newsId, updatedNews);
-      
-      // Clear the input fields
-      document.getElementById('update-news-id').value = '';
-      document.getElementById('update-news-headline').value = '';
-      document.getElementById('update-news-content').value = '';
-      document.getElementById('update-news-country').value = '';
-      
-      // Show a success message
-      showMessage('News article updated successfully', 'success');
-    } catch (error) {
-      console.error('Error updating news:', error.message);
-      showMessage(`Error updating news: ${error.message}`, 'error');
+      updatedNews = JSON.parse(responseText);
+    } catch (e) {
+      console.error('Failed to parse JSON response:', e);
+      throw new Error('Invalid response from server');
     }
+
+    // Update the UI with the new data
+    updateNewsCard(newsId, updatedNews);
+
+    // Clear the input fields
+    document.getElementById('update-news-id').value = '';
+    document.getElementById('update-news-headline').value = '';
+    document.getElementById('update-news-content').value = '';
+    document.getElementById('update-news-country').value = '';
+
+    // Show a success message
+    showMessage('News article updated successfully', 'success');
+  } catch (error) {
+    console.error('Error updating news:', error.message);
+    showMessage(`Error updating news: ${error.message}`, 'error');
   }
-  
-  function removeNewsCard(newsId) {
-    const newsCard = document.querySelector(`[data-news-id="${newsId}"]`);
-    if (newsCard) {
-      newsCard.remove();
-    }
-  }
-  
-  function updateNewsCard(newsId, updatedNews) {
-    const newsCard = document.querySelector(`[data-news-id="${newsId}"]`);
-    if (newsCard) {
+}
+
+function updateNewsCard(newsId, updatedNews) {
+  const newsCard = document.querySelector(`[data-news-id="${newsId}"]`);
+  if (newsCard) {
       newsCard.querySelector('#news-title').textContent = updatedNews.headline;
       newsCard.querySelector('#news-desc').textContent = updatedNews.content;
       newsCard.querySelector('#news-source').textContent = updatedNews.country;
+  }
+}
+
+function removeNewsCard(newsId) {
+  const newsCard = document.querySelector(`[data-news-id="${newsId}"]`);
+  if (newsCard) {
+    newsCard.remove();
+  }
+}
+  
+function updateNewsIndexes() {
+  const newsCards = document.querySelectorAll('.news-card');
+  newsCards.forEach((card, index) => {
+    const newsIndex = card.querySelector('#news-index');
+    if (newsIndex) {
+      newsIndex.textContent = `#${index + 1}`;
     }
-  }
-  
-  function updateNewsIndexes() {
-    const newsCards = document.querySelectorAll('.news-card');
-    newsCards.forEach((card, index) => {
-      const newsIndex = card.querySelector('#news-index');
-      if (newsIndex) {
-        newsIndex.textContent = `#${index + 1}`;
-      }
-    });
-  }
-  
-  function showMessage(message, type) {
-    const messageElement = document.getElementById('message');
-    messageElement.textContent = message;
-    messageElement.className = type;
-    messageElement.style.display = 'block';
-  
-    // Hide the message after 3 seconds
-    setTimeout(() => {
-      messageElement.style.display = 'none';
-    }, 3000);
-  }
-  
-  function displayNews(newsArray) {
-    const container = document.getElementById('cards-container');
-    const template = document.getElementById('template-news-card');
-  
-    container.innerHTML = ''; // Clear existing content
-  
-    newsArray.forEach((newsItem, index) => {
-      const cardClone = template.content.cloneNode(true);
-  
-      cardClone.querySelector('#news-title').textContent = newsItem.headline;
-      cardClone.querySelector('#news-desc').textContent = newsItem.content;
-      cardClone.querySelector('#news-source').textContent = newsItem.country;
-      cardClone.querySelector('#news-index').textContent = `#${index + 1}`;
-  
-      // Add a data attribute for easier card identification
-      cardClone.querySelector('.news-card').setAttribute('data-news-id', newsItem.newsid);
-  
-      // You might want to set a default image or use a field from your database if available
-      cardClone.querySelector('#news-img').src = 'https://via.placeholder.com/400x200';
-  
-      container.appendChild(cardClone);
-    });
-  }
+  });
+}
+
+function showMessage(message, type) {
+  const messageElement = document.getElementById('message');
+  messageElement.textContent = message;
+  messageElement.className = type;
+  messageElement.style.display = 'block';
+
+  // Hide the message after 3 seconds
+  setTimeout(() => {
+    messageElement.style.display = 'none';
+  }, 3000);
+}
+
+function displayNews(newsArray) {
+  const container = document.getElementById('cards-container');
+  const template = document.getElementById('template-news-card');
+
+  container.innerHTML = ''; // Clear existing content
+
+  newsArray.forEach((newsItem, index) => {
+    const cardClone = template.content.cloneNode(true);
+
+    cardClone.querySelector('#news-title').textContent = newsItem.headline;
+    cardClone.querySelector('#news-desc').textContent = newsItem.content;
+    cardClone.querySelector('#news-source').textContent = newsItem.country;
+    cardClone.querySelector('#news-index').textContent = `#${index + 1}`;
+
+    cardClone.querySelector('.news-card').setAttribute('data-news-id', newsItem.newsid);
+    cardClone.querySelector('#news-img').src = 'https://via.placeholder.com/400x200';
+
+    container.appendChild(cardClone);
+  });
+}
