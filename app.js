@@ -32,6 +32,7 @@ app.get("/newsArticle/:newsid", newsController.getNewsById);
 app.post("/newsArticle", validateNews, newsController.createNews); 
 app.delete("/newsArticle/:newsid", newsController.deleteNews); 
 app.patch("/newsArticle/:newsid", validateNews, newsController.updateNews);
+app.put("/newsArticle/:newsid", validateNews, newsController.updateNews);
 
 // Blog Post routes
 app.get("/blogPosts", bpController.getAllBlogPosts);

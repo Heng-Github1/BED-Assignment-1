@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
       displayNews(news);
     } catch (error) {
       console.error('Error fetching news:', error.message);
-      // Display an error message to the user
+      // Display an error message
       document.getElementById('cards-container').innerHTML = `<p>Error loading news: ${error.message}</p>`;
     }
   }
@@ -30,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cardClone.querySelector('#news-desc').textContent = newsItem.content;
         cardClone.querySelector('#news-source').textContent = newsItem.country;
         cardClone.querySelector('#news-index').textContent = `#${newsItem.newsid}`;
-  
-        // You might want to set a default image or use a field from your database if available
         cardClone.querySelector('#news-img').src = 'https://via.placeholder.com/400x200';
   
         container.appendChild(cardClone);
@@ -40,18 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Function to handle navigation item clicks
   function onNavItemClick(category) {
-    // You can implement filtering or fetching by category here
     console.log(`Category clicked: ${category}`);
-    // For now, we'll just re-fetch all news
     fetchNews();
   }
   
   // Function to handle search
   document.getElementById('search-button').addEventListener('click', () => {
     const searchTerm = document.getElementById('search-text').value;
-    // Implement search functionality here
     console.log(`Search term: ${searchTerm}`);
-    // For now, we'll just re-fetch all news
     fetchNews();
   });
   
