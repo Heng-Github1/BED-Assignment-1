@@ -84,6 +84,7 @@ class News {
 
     return this.getNewsById(newsid); // returning the updated news data
   }
+  
     //--------------- DELETE A NEWS------------------
     static async deleteNews(newsid) {
     const connection = await sql.connect(dbConfig);

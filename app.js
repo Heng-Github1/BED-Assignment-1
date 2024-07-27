@@ -44,7 +44,6 @@ app.delete("/blogPosts/:id", bpController.deleteBlogPost);
 // User routes
 app.post("/register", userController.registerUser); // Register route
 app.post("/login", userController.loginUser); // Login route
-app.patch("/users/reset-password", userController.resetPassword); // Password Reset route
 
 // Protect routes with JWT middleware
 app.get("/users/profile", auth, userController.getUserProfile); // User profile route

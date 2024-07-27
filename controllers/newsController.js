@@ -51,6 +51,7 @@ const updateNews = async (req, res) => {
   }
 };
 
+
 const deleteNews = async (req, res) => {
   const newsId = parseInt(req.params.newsid);
 
@@ -71,5 +72,5 @@ module.exports = {
   createNews,
   getNewsById,
   updateNews,
-  deleteNews,
+  deleteNews
 };
