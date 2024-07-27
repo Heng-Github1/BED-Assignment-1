@@ -54,11 +54,12 @@ const createBlogPost = async (req, res) => {
 };
 
 const updateBlogPost = async (req, res) => {
-  const BPid = parseInt((req.params.id));
+  const BPid = parseInt(req.params.id);
   const newBPData = req.body;
   try {
     const updatedBlogPost = await BlogPost.updateBlogPost(BPid, newBPData);
     if (!updatedBlogPost) {
+      console.error(`Blog post with ID ${BPid} not found`);
       return res.status(404).send(`Blog post with ID ${BPid} not found`);
     }
     res.json(updatedBlogPost);
@@ -70,11 +71,12 @@ const updateBlogPost = async (req, res) => {
       console.error("Database error:", error);
       res.status(500).send(`Error updating blog post with ID ${BPid} in database`);
     } else {
-      console.error(error);
+      console.error("Unexpected error:", error);
       res.status(500).send(`Error updating blog post with ID ${BPid}`);
     }
   }
 };
+
 
 const deleteBlogPost = async (req, res) => {
   const BPid = parseInt((req.params.id));

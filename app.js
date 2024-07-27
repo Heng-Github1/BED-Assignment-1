@@ -12,7 +12,7 @@ const auth = require('./middlewares/auth'); // JWT middleware
 const dbConfig = require("./dbConfig");
 
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger/swagger-output.json"); // Import generated spec
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -43,6 +43,7 @@ app.delete("/blogPosts/:id", bpController.deleteBlogPost);
 // User routes
 app.post("/register", userController.registerUser); // Register route
 app.post("/login", userController.loginUser); // Login route
+app.patch("/users/reset-password", userController.resetPassword); // Password Reset route
 
 // Protect routes with JWT middleware
 app.get("/users/profile", auth, userController.getUserProfile); // User profile route
