@@ -11,8 +11,8 @@ const validateBlogPost = require("./middlewares/validateBlogPost");
 const auth = require('./middlewares/auth'); // JWT middleware
 const dbConfig = require("./dbConfig");
 
-// const swaggerUi = require("swagger-ui-express");
-const { swaggerUi, swaggerDocs } = require('./swagger'); // Swagger setup
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger/swagger-output.json"); // Import generated spec
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -24,8 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
 // Swagger setup
-
-const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // News routes
 app.get("/newsArticle", newsController.getAllNews);
@@ -42,8 +41,14 @@ app.put("/blogPosts/:id", validateBlogPost, bpController.updateBlogPost);
 app.delete("/blogPosts/:id", bpController.deleteBlogPost);
 
 // User routes
-app.post("/register", userController.registerUser); // Register route
-app.post("/login", userController.loginUser); // Login route
+// Route for user registration
+app.post("/register", userController.registerUser); // This route handles the registration of a new user by calling the 'registerUser' function in the userController.
+
+// Route for user login
+app.post("/login", userController.loginUser); // This route handles the login of a user by calling the 'loginUser' function in the userController.
+
+// Route for resetting the user's password
+app.patch("/users/reset-password", userController.resetPassword); // This route allows a user to reset their password by calling the 'resetPassword' function in the userController.
 
 // Protect routes with JWT middleware
 app.get("/users/profile", auth, userController.getUserProfile); // User profile route
