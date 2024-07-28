@@ -13,24 +13,26 @@ class Comment {
   static async getCommentsByBPid(BPid) {
     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = "SELECT * FROM comments WHERE BPid = @BPid";
-
+    const sqlQuery = `SELECT * FROM comments WHERE BPid = @BPid`;
+    
     const request = connection.request();
-    request.input("BPid", sql.Int, BPid);
+    request.input('BPid', sql.Int, BPid);
+    
     const result = await request.query(sqlQuery);
-
+    
     connection.close();
 
-    return result.recordset.map(
-      (row) =>
-        new Comment(
-          row.commentID,
-          row.BPid,
-          row.authorID,
-          row.commentContent,
-          row.commentCreated
-        )
-    );
+    if (result.recordset.length > 0) { 
+        return result.recordset.map(record => new Comment(
+            record.commentID,
+            record.BPid,
+            record.authorID,
+            record.commentContent,
+            record.commentCreated
+        ));
+      } else {
+          return null;
+      }
   }
 
   static async createComment(newCommentData) {

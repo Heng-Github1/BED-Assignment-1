@@ -1,13 +1,13 @@
 const Comment = require("../models/comment");
 
 const getCommentsByBPid = async (req, res) => {
-  const BPid = parseInt(req.params.BPid);
+  const BPid = parseInt(req.params.id);
   try {
     const comments = await Comment.getCommentsByBPid(BPid);
     res.json(comments);
   } catch (error) {
-    console.error("Error fetching comments:", error);
-    res.status(500).send("Error fetching comments");
+    console.error('Error fetching comments:', error);
+    res.status(500).send('Error fetching comments');
   }
 };
 

@@ -1,3 +1,13 @@
+// Back button 
+document.getElementById("back-link").addEventListener("click", () => { 
+    history.go(-1); 
+}); 
+ 
+// My blog posts link 
+document.getElementById("my-blog-posts-link").addEventListener("click", () => { 
+    window.location.href = "BP(my).html"; 
+});
+
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         const response = await fetch('/blogPosts');
@@ -23,15 +33,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <p class="text-muted">AuthorID: ${post.authorID}</p>
                         <p class="text-muted">Published: ${new Date(post.bpCreated).toLocaleDateString()}</p>
                         <button class="btn btn-primary" onclick="showComments(${post.BPid})">View Comments</button>
-                        <div id="comments-section-${post.BPid}" class="comments-section" style="display: none;">
-                            <div class="comment-form">
-                                <textarea id="comment-input-${post.BPid}" class="form-control mb-2" placeholder="Write a comment..."></textarea>
-                                <button class="btn btn-success" onclick="submitComment(${post.BPid})">Submit</button>
-                            </div>
-                            <div id="comments-container-${post.BPid}" class="comments-container mt-3">
-                                <!-- Comments will be inserted here -->
-                            </div>
-                        </div>
                     </div>
                 </div>
             `;
@@ -43,20 +44,29 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-// Show comments section for a specific blog post
+let currentBPid;
+
 async function showComments(BPid) {
-    const commentsSection = document.getElementById(`comments-section-${BPid}`);
-    const commentsContainer = document.getElementById(`comments-container-${BPid}`);
+    currentBPid = BPid;
+    const commentsModal = new bootstrap.Modal(document.getElementById('commentsModal'));
+    const commentsContainer = document.getElementById('modal-comments-container');
 
-    commentsSection.style.display = 'block'; // Ensure the comments section is displayed
-
+    // Fetch and display comments
     try {
         const response = await fetch(`/comments/${BPid}`);
         if (!response.ok) {
             throw new Error('Failed to fetch comments');
         }
         const comments = await response.json();
-        
+
+        // Log the response to inspect the data
+        console.log('Fetched comments:', comments);
+
+        // Ensure comments is an array
+        if (!Array.isArray(comments)) {
+            throw new Error('Comments data is not an array');
+        }
+
         // Clear previous comments (if any)
         commentsContainer.innerHTML = '';
 
@@ -64,38 +74,32 @@ async function showComments(BPid) {
         for (const comment of comments) {
             const commentElement = document.createElement('div');
             commentElement.classList.add('comment');
-
             commentElement.innerHTML = `
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-text">${comment.commentContent}</p>
-                        <p class="text-muted">AuthorID: ${comment.authorID}</p>
-                        <p class="text-muted">Published: ${new Date(comment.commentCreated).toLocaleString()}</p>
-                    </div>
-                </div>
+                <p><strong>${comment.authorID}</strong>: ${comment.commentContent}</p>
+                <p class="text-muted">${new Date(comment.commentCreated).toLocaleDateString()}</p>
             `;
-
             commentsContainer.appendChild(commentElement);
         }
+
+        commentsModal.show();
     } catch (error) {
         console.error('Error fetching comments:', error);
     }
 }
 
-// Submit a new comment
-async function submitComment(BPid) {
-    const commentInput = document.getElementById(`comment-input-${BPid}`);
-    const commentContent = commentInput.value.trim();
+async function submitModalComment() {
+    const commentInput = document.getElementById('modal-comment-input');
+    const commentContent = commentInput.value;
 
-    if (commentContent === '') {
+    if (commentContent.trim() === '') {
         alert('Comment cannot be empty');
         return;
     }
 
-    const newComment = {
-        BPid,
-        authorID: getCurrentAuthorID(), // Use the current logged-in user ID
-        commentContent
+    const newCommentData = {
+        BPid: currentBPid,
+        authorID: 1, // Replace with actual author ID
+        commentContent: commentContent
     };
 
     try {
@@ -104,38 +108,31 @@ async function submitComment(BPid) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newComment)
+            body: JSON.stringify(newCommentData)
         });
 
         if (!response.ok) {
             throw new Error('Failed to submit comment');
         }
 
+        const newComment = await response.json();
+
         // Clear the comment input
         commentInput.value = '';
 
-        // Refresh the comments section
-        showComments(BPid);
+        // Append the new comment to the comments container
+        const commentsContainer = document.getElementById('modal-comments-container');
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.innerHTML = `
+            <p><strong>${newComment.authorID}</strong>: ${newComment.commentContent}</p>
+            <p class="text-muted">${new Date(newComment.commentCreated).toLocaleDateString()}</p>
+        `;
+        commentsContainer.appendChild(commentElement);
     } catch (error) {
         console.error('Error submitting comment:', error);
     }
 }
-
-// Function to get the current logged-in user's authorID
-function getCurrentAuthorID() {
-    // Replace with actual logic to get the logged-in user's authorID
-    return localStorage.getItem('authorID') || 1; // Example logic using localStorage
-}
-
-// Back button
-document.getElementById("back-link").addEventListener("click", () => {
-    history.go(-1);
-});
-
-// My blog posts link
-document.getElementById("my-blog-posts-link").addEventListener("click", () => {
-    window.location.href = "BP(my).html";
-});
 
 // Search functionality
 document.addEventListener('DOMContentLoaded', function() {

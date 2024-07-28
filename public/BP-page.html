@@ -58,6 +58,30 @@
         </div>
         <span id="my-blog-posts-link" class="btn btn-secondary mt-4"><i class="fa-solid fa-newspaper"></i> My Blog Posts</span>
     </div>
+
+    <!-- Modal for displaying comments -->
+    <div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commentsModalLabel">Comments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-comments-container" class="comments-container mt-3">
+                        <!-- Comments will be inserted here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="comment-form">
+                        <textarea id="modal-comment-input" class="form-control mb-2" placeholder="Write a comment..."></textarea>
+                        <button class="btn btn-success" onclick="submitModalComment()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="BP.js"></script>
 </body>
 </html>
