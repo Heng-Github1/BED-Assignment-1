@@ -16,6 +16,23 @@ INSERT INTO blogPosts (title, content, authorID, bpCreated, bpModified)VALUES ('
 INSERT INTO blogPosts (title, content, authorID, bpCreated, bpModified)
 VALUES ('title 5', 'This blog post examines innovative solutions to navigate the complex challenges facing education in Southeast Asia amidst the intersecting forces of politics, climate change, and technology. From community-driven initiatives promoting inclusive education to cross-border collaborations leveraging digital tools, we showcase diverse approaches to address educational disparities and foster resilience in the face of adversity. By fostering a culture of innovation and collaboration, we strive to build a brighter future for education in Southeast Asia.', 5, '2024-06-09 10:00:00', '2024-06-09 11:00:00');
 
+CREATE TABLE comments (
+    commentID INT IDENTITY(1,1) PRIMARY KEY,
+    BPid INT,
+    authorID INT,
+    commentContent NVARCHAR(MAX),
+    commentCreated DATETIME,
+    FOREIGN KEY (BPid) REFERENCES blogPosts(BPid),
+    FOREIGN KEY (authorID) REFERENCES users(userID)
+);
+
+
+INSERT INTO comments (BPid, authorID, commentContent, commentCreated)
+VALUES (1, 1, 'This is a comment on the first blog post.', '2024-07-01 10:00:00');
+INSERT INTO comments (BPid, authorID, commentContent, commentCreated)
+VALUES (2, 2, 'Another insightful post, thank you!', '2024-07-02 12:30:00');
+
+
 CREATE TABLE users ( 
 userID INT IDENTITY (1,1) PRIMARY KEY, 
 username NVARCHAR(255), 
