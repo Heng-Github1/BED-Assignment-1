@@ -6,7 +6,6 @@ const sql = require("mssql");
 const newsController = require("./controllers/newsController");
 const bpController = require("./controllers/bpController");
 const userController = require("./controllers/userController");
-const commentController = require("./controllers/commentController");
 const validateNews = require("./middlewares/validateNews"); 
 const validateBlogPost = require("./middlewares/validateBlogPost");
 const auth = require('./middlewares/auth'); // JWT middleware
@@ -33,7 +32,6 @@ app.get("/newsArticle/:newsid", newsController.getNewsById);
 app.post("/newsArticle", validateNews, newsController.createNews); 
 app.delete("/newsArticle/:newsid", newsController.deleteNews); 
 app.patch("/newsArticle/:newsid", validateNews, newsController.updateNews);
-app.put("/newsArticle/:newsid", validateNews, newsController.updateNews);
 
 // Blog Post routes
 app.get("/blogPosts", bpController.getAllBlogPosts);
@@ -41,10 +39,6 @@ app.get("/blogPosts/:id", bpController.getBlogPostById);
 app.post("/blogPosts", validateBlogPost, bpController.createBlogPost); 
 app.put("/blogPosts/:id", validateBlogPost, bpController.updateBlogPost); 
 app.delete("/blogPosts/:id", bpController.deleteBlogPost);
-
-//comment routes
-app.get("/comments/:id", commentController.getCommentsByBPid);
-app.post("/comments", commentController.createComment);
 
 // User routes
 // Route for user registration
